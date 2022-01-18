@@ -40,5 +40,19 @@ type signInInput struct {
 }
 
 func (h *UserHandler) SignIn(c *gin.Context) {
+	var input signInInput
 
+	if err := c.BindJSON(&input); err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	id, err := h.service.SignIn(c, input.Username, input.Password)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{
+		"id": id,
+	})
 }
