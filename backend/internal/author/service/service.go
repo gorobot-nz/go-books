@@ -18,8 +18,7 @@ func (s *AuthorService) AddAuthor(ctx context.Context, author *domain.Author) (i
 }
 
 func (s *AuthorService) GetAuthors(ctx context.Context) (*[]domain.Author, error) {
-	//TODO implement me
-	panic("implement me")
+	return s.repository.GetAuthors(ctx)
 }
 
 func (s *AuthorService) GetAuthorById(ctx context.Context, id int) (*domain.Author, error) {

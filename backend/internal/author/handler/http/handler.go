@@ -16,7 +16,15 @@ func NewAuthorHandler(service domain.AuthorService) *AuthorHandler {
 }
 
 func (h *AuthorHandler) GetAuthors(c *gin.Context) {
+	authors, err := h.service.GetAuthors(c)
 
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"authors": authors,
+	})
 }
 
 func (h *AuthorHandler) GetAuthorById(c *gin.Context) {

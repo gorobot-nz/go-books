@@ -31,8 +31,15 @@ func (r *AuthorRepository) AddAuthor(ctx context.Context, author *domain.Author)
 }
 
 func (r *AuthorRepository) GetAuthors(ctx context.Context) (*[]domain.Author, error) {
-	//TODO implement me
-	panic("implement me")
+	var authors []domain.Author
+
+	query := fmt.Sprintf("SELECT id, name, surname FROM %s", authorsTable)
+
+	err := r.db.Select(&authors, query)
+	if err != nil {
+		return nil, err
+	}
+	return &authors, nil
 }
 
 func (r *AuthorRepository) GetAuthorById(ctx context.Context, id int) (*domain.Author, error) {
