@@ -6,5 +6,11 @@ import (
 )
 
 func RegisterEndpoints(r *gin.Engine, service domain.UserService) {
+	h := NewUserHandler(service)
 
+	userEndpoints := r.Group("auth")
+	{
+		userEndpoints.POST("signup", h.SignUp)
+		userEndpoints.POST("signin", h.SignIn)
+	}
 }
