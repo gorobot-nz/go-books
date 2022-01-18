@@ -1,5 +1,7 @@
 package domain
 
+import "context"
+
 type Book struct {
 	Id          uint   `json:"id" db:"id"`
 	UserId      uint   `json:"userId" binding:"required" db:"user_id"`
@@ -10,19 +12,19 @@ type Book struct {
 }
 
 type BookService interface {
-	GetBooks()
-	GetBookById()
-	GetBookByAuthorId()
-	AddBook()
-	UpdateBook()
-	DeleteBook()
+	GetBooks(ctx context.Context) (*[]Book, error)
+	GetBookById(ctx context.Context, id int) (*Book, error)
+	GetBooksByAuthorId(ctx context.Context, id int) (*[]Book, error)
+	AddBook(ctx context.Context, book *Book) (int, error)
+	UpdateBook(ctx context.Context, id int, book *Book) (int, error)
+	DeleteBook(ctx context.Context, id int)
 }
 
 type BookRepository interface {
-	GetBooks()
-	GetBookById()
-	GetBookByAuthorId()
-	AddBook()
-	UpdateBook()
-	DeleteBook()
+	GetBooks(ctx context.Context) (*[]Book, error)
+	GetBookById(ctx context.Context, id int) (*Book, error)
+	GetBooksByAuthorId(ctx context.Context, id int) (*[]Book, error)
+	AddBook(ctx context.Context, book *Book) (int, error)
+	UpdateBook(ctx context.Context, id int, book *Book) (int, error)
+	DeleteBook(ctx context.Context, id int)
 }
