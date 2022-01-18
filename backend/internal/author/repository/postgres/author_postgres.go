@@ -60,8 +60,14 @@ func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domai
 }
 
 func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string, error) {
-	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", authorsTable)
-	_, err := r.db.Exec(query, id)
+	authorId, err := strconv.Atoi(id)
+	if err != nil {
+		return "0", err
+	}
+
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", authorsTable)
+
+	_, err = r.db.Exec(query, authorId)
 	if err != nil {
 		return "0", err
 	}
@@ -69,6 +75,17 @@ func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string,
 }
 
 func (r *AuthorRepository) UpdateAuthor(ctx context.Context, id string, author *domain.Author) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	authorId, err := strconv.Atoi(id)
+	if err != nil {
+		return "0", err
+	}
+
+	query := fmt.Sprintf("UPDATE %s SET name = $1, surname = $2 WHERE id = $3", authorsTable)
+
+	_, err = r.db.Exec(query, author.Name, author.Surname, authorId)
+	if err != nil {
+		return "0", nil
+	}
+
+	return id, err
 }

@@ -15,6 +15,24 @@ func NewAuthorHandler(service domain.AuthorService) *AuthorHandler {
 	return &AuthorHandler{service: service}
 }
 
+func (h *AuthorHandler) AddAuthor(c *gin.Context) {
+	var author domain.Author
+
+	if err := c.BindJSON(&author); err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	id, err := h.service.AddAuthor(c, &author)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"id": id,
+	})
+}
+
 func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 	authors, err := h.service.GetAuthors(c)
 
@@ -42,24 +60,6 @@ func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 	})
 }
 
-func (h *AuthorHandler) AddAuthor(c *gin.Context) {
-	var author domain.Author
-
-	if err := c.BindJSON(&author); err != nil {
-		utils.ErrorMessage(c, err.Error())
-		return
-	}
-
-	id, err := h.service.AddAuthor(c, &author)
-	if err != nil {
-		utils.ErrorMessage(c, err.Error())
-	}
-
-	c.JSON(http.StatusCreated, gin.H{
-		"id": id,
-	})
-}
-
 func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
 	authorId := c.Param("id")
 
@@ -69,11 +69,27 @@ func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"id": id,
 	})
 }
 
 func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
+	authorId := c.Param("id")
+	var author domain.Author
 
+	if err := c.BindJSON(&author); err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	id, err := h.service.UpdateAuthor(c, authorId, &author)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"id": id,
+	})
 }
