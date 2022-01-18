@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
@@ -11,6 +12,10 @@ import (
 	userHttp "github.com/gorobot-nz/go-books/internal/user/handler/http"
 	userPostgres "github.com/gorobot-nz/go-books/internal/user/repository/postgres"
 	userService "github.com/gorobot-nz/go-books/internal/user/service"
+	log "github.com/sirupsen/logrus"
+	"os"
+	"os/signal"
+	"time"
 
 	"github.com/gorobot-nz/go-books/internal/domain"
 
@@ -49,7 +54,29 @@ func (a *App) Run() error {
 	bookHttp.RegisterEndpoints(api, a.bookService)
 	userHttp.RegisterEndpoints(router, a.userService)
 
-	return nil
+	a.server = &http.Server{
+		Addr:           ":8000",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	go func() {
+		if err := a.server.ListenAndServe(); err != nil {
+			log.Fatalf("Failed to listen and serve: %+v", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, os.Interrupt)
+
+	<-quit
+
+	ctx, shutdown := context.WithTimeout(context.Background(), 5*time.Second)
+	defer shutdown()
+
+	return a.server.Shutdown(ctx)
 }
 
 func initDb() *sqlx.DB {
