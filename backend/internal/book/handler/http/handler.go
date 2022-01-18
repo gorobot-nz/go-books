@@ -16,7 +16,16 @@ func NewBookHandler(service domain.BookService) *BookHandler {
 }
 
 func (h *BookHandler) GetBooks(c *gin.Context) {
+	books, err := h.service.GetBooks(c)
 
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"books": books,
+	})
 }
 
 func (h *BookHandler) GetBookById(c *gin.Context) {
