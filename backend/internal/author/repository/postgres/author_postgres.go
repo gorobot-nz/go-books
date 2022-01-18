@@ -28,7 +28,7 @@ func (r *AuthorRepository) AddAuthor(ctx context.Context, author *domain.Author)
 		return "0", err
 	}
 
-	return string(id), nil
+	return strconv.Itoa(id), nil
 }
 
 func (r *AuthorRepository) GetAuthors(ctx context.Context) (*[]domain.Author, error) {
@@ -60,8 +60,12 @@ func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domai
 }
 
 func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", authorsTable)
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return "0", err
+	}
+	return id, nil
 }
 
 func (r *AuthorRepository) UpdateAuthor(ctx context.Context, id string, author *domain.Author) (string, error) {

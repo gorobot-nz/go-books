@@ -26,8 +26,7 @@ func (s *AuthorService) GetAuthorById(ctx context.Context, id string) (*domain.A
 }
 
 func (s *AuthorService) DeleteAuthor(ctx context.Context, id string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	return s.repository.DeleteAuthor(ctx, id)
 }
 
 func (s *AuthorService) UpdateAuthor(ctx context.Context, id string, author *domain.Author) (string, error) {
