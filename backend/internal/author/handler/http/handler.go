@@ -5,30 +5,30 @@ import (
 	"github.com/gorobot-nz/go-books/internal/domain"
 )
 
-type Handler struct {
+type AuthorHandler struct {
 	service domain.AuthorService
 }
 
-func NewHandler(service domain.AuthorService) *Handler {
-	return &Handler{service: service}
+func NewAuthorHandler(service domain.AuthorService) *AuthorHandler {
+	return &AuthorHandler{service: service}
 }
 
-func (h *Handler) GetAuthors(c *gin.Context) {
-
-}
-
-func (h *Handler) GetAuthorId(c *gin.Context) {
+func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 
 }
 
-func (h *Handler) AddAuthor(c *gin.Context) {
+func (h *AuthorHandler) GetAuthorId(c *gin.Context) {
 
 }
 
-func (h *Handler) DeleteAuthor(c *gin.Context) {
+func (h *AuthorHandler) AddAuthor(c *gin.Context) {
 
 }
 
-func (h *Handler) UpdateAuthor(c *gin.Context) {
+func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
+
+}
+
+func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
 
 }
