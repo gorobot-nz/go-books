@@ -32,8 +32,7 @@ func (b *BookService) AddBook(ctx context.Context, book *domain.Book) (string, e
 }
 
 func (b *BookService) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	return b.repository.UpdateBook(ctx, id, book)
 }
 
 func (b *BookService) DeleteBook(ctx context.Context, id string) (string, error) {

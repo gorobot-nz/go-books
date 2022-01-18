@@ -74,8 +74,20 @@ func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book) (string
 }
 
 func (r *BookRepository) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	bookId, err := strconv.Atoi(id)
+	if err != nil {
+		return "0", err
+	}
+
+	query := fmt.Sprintf("UPDATE %s "+
+		"SET userId=$1, title=$2, desctiprion=$3, price=$4, date=$5 WHERE id=$6", booksTable)
+
+	_, err = r.db.Exec(query, book.UserId, book.Title, book.Description, book.Price, book.Date, bookId)
+	if err != nil {
+		return "0", nil
+	}
+
+	return id, err
 }
 
 func (b *BookRepository) DeleteBook(ctx context.Context, id string) (string, error) {

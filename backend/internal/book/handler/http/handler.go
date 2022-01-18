@@ -61,7 +61,17 @@ func (h *BookHandler) AddBook(c *gin.Context) {
 }
 
 func (h *BookHandler) DeleteBook(c *gin.Context) {
+	bookId := c.Param("id")
 
+	id, err := h.service.DeleteBook(c, bookId)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"id": id,
+	})
 }
 
 func (h *BookHandler) UpdateBook(c *gin.Context) {
