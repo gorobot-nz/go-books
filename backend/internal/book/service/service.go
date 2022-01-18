@@ -19,8 +19,7 @@ func (b *BookService) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 }
 
 func (b *BookService) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
-	//TODO implement me
-	panic("implement me")
+	return b.repository.GetBookById(ctx, id)
 }
 
 func (b *BookService) GetBooksByAuthorId(ctx context.Context, id int) (*[]domain.Book, error) {

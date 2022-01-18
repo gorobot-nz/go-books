@@ -35,8 +35,19 @@ func (r *BookRepository) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 }
 
 func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
-	//TODO implement me
-	panic("implement me")
+	var book domain.Book
+	bookId, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+
+	query := fmt.Sprintf("SELECT id, userId, title, desctiprion, price, date FROM %s WHERE id=$1", booksTable)
+
+	err = r.db.Select(&book, query, bookId)
+	if err != nil {
+		return nil, err
+	}
+	return &book, nil
 }
 
 func (r *BookRepository) GetBooksByAuthorId(ctx context.Context, id int) (*[]domain.Book, error) {
