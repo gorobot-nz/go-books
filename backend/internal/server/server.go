@@ -1,9 +1,12 @@
 package server
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
+	"io/ioutil"
+	"path/filepath"
 
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
@@ -23,6 +26,15 @@ import (
 	"time"
 )
 
+type DbConfig struct {
+	Host     string
+	Port     string
+	Username string
+	Password string
+	DBName   string
+	SSLMode  string
+}
+
 type App struct {
 	server *http.Server
 
@@ -32,7 +44,8 @@ type App struct {
 }
 
 func NewApp() *App {
-	dbConnection := initDb()
+	cfg := DbConfig{}
+	dbConnection := initDb(cfg)
 
 	userRepository := userPostgres.NewUserRepository(dbConnection)
 	bookRepository := bookPostgres.NewBookRepository(dbConnection)
@@ -78,6 +91,36 @@ func (a *App) Run() error {
 	return a.server.Shutdown(ctx)
 }
 
-func initDb() *sqlx.DB {
+func initDb(cfg DbConfig) *sqlx.DB {
+	db, err := sqlx.Open("postgres",
+		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
+			cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
+
+	if err != nil {
+		log.Fatalf("DBConnection error: %s", err.Error())
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("DBConnection error: %s", err.Error())
+	}
+
+	path := filepath.Join(".", "internal", "schema", "migration_up.sql")
+	c, ioErr := ioutil.ReadFile(path)
+	if ioErr != nil {
+		log.Fatalf("DBConnection error: %s", ioErr.Error())
+	}
+
+	var schema = string(c)
+	db.MustExec(schema)
+
+	return db
+}
+
+func checkEnvVars() error {
+	return nil
+}
+
+func initConfig() error {
 	return nil
 }
