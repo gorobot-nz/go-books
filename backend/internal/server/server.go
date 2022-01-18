@@ -1,27 +1,26 @@
 package server
 
 import (
-	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
+	log "github.com/sirupsen/logrus"
+
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
 	authorService "github.com/gorobot-nz/go-books/internal/author/service"
 	bookHttp "github.com/gorobot-nz/go-books/internal/book/handler/http"
 	bookPostgres "github.com/gorobot-nz/go-books/internal/book/repository/postgres"
 	bookService "github.com/gorobot-nz/go-books/internal/book/service"
+	"github.com/gorobot-nz/go-books/internal/domain"
 	userHttp "github.com/gorobot-nz/go-books/internal/user/handler/http"
 	userPostgres "github.com/gorobot-nz/go-books/internal/user/repository/postgres"
 	userService "github.com/gorobot-nz/go-books/internal/user/service"
-	log "github.com/sirupsen/logrus"
+
+	"context"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
-
-	"github.com/gorobot-nz/go-books/internal/domain"
-
-	"github.com/jmoiron/sqlx"
-
-	"net/http"
 )
 
 type App struct {
