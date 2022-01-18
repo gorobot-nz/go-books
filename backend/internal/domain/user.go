@@ -4,7 +4,7 @@ import "context"
 
 type User struct {
 	Id       uint   `json:"-" db:"id"`
-	Username string `json:"username" binding:"required" db:"username"'`
+	Username string `json:"username" binding:"required" db:"username"`
 	Password string `json:"password" binding:"required" db:"password"`
 }
 
