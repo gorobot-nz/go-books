@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gorobot-nz/go-books/internal/domain"
 	"github.com/jmoiron/sqlx"
+	"strconv"
 )
 
 const authorsTable = "authors"
@@ -17,17 +18,17 @@ func NewAuthorRepository(db *sqlx.DB) *AuthorRepository {
 	return &AuthorRepository{db: db}
 }
 
-func (r *AuthorRepository) AddAuthor(ctx context.Context, author *domain.Author) (int, error) {
+func (r *AuthorRepository) AddAuthor(ctx context.Context, author *domain.Author) (string, error) {
 	var id int
 
 	query := fmt.Sprintf("INSERT INTO %s (name, surname) values ($1, $2) RETURNING id", authorsTable)
 
 	row := r.db.QueryRow(query, author.Name, author.Surname)
 	if err := row.Scan(&id); err != nil {
-		return 0, err
+		return "0", err
 	}
 
-	return id, nil
+	return string(id), nil
 }
 
 func (r *AuthorRepository) GetAuthors(ctx context.Context) (*[]domain.Author, error) {
@@ -42,17 +43,28 @@ func (r *AuthorRepository) GetAuthors(ctx context.Context) (*[]domain.Author, er
 	return &authors, nil
 }
 
-func (r *AuthorRepository) GetAuthorById(ctx context.Context, id int) (*domain.Author, error) {
+func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domain.Author, error) {
+	var author domain.Author
+	authorId, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+
+	query := fmt.Sprintf("SELECT id, name, surname FROM %s WHERE id=$1", authorsTable)
+
+	err = r.db.Select(&author, query, authorId)
+	if err != nil {
+		return nil, err
+	}
+	return &author, nil
+}
+
+func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id int) (int, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (r *AuthorRepository) UpdateAuthor(ctx context.Context, id int, author *domain.Author) (int error) {
+func (r *AuthorRepository) UpdateAuthor(ctx context.Context, id string, author *domain.Author) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }

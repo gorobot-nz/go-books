@@ -13,7 +13,7 @@ func NewAuthorService(repository domain.AuthorRepository) *AuthorService {
 	return &AuthorService{repository: repository}
 }
 
-func (s *AuthorService) AddAuthor(ctx context.Context, author *domain.Author) (int, error) {
+func (s *AuthorService) AddAuthor(ctx context.Context, author *domain.Author) (string, error) {
 	return s.repository.AddAuthor(ctx, author)
 }
 
@@ -21,17 +21,16 @@ func (s *AuthorService) GetAuthors(ctx context.Context) (*[]domain.Author, error
 	return s.repository.GetAuthors(ctx)
 }
 
-func (s *AuthorService) GetAuthorById(ctx context.Context, id int) (*domain.Author, error) {
+func (s *AuthorService) GetAuthorById(ctx context.Context, id string) (*domain.Author, error) {
+	return s.repository.GetAuthorById(ctx, id)
+}
+
+func (s *AuthorService) DeleteAuthor(ctx context.Context, id string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s *AuthorService) DeleteAuthor(ctx context.Context, id int) (int, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (s *AuthorService) UpdateAuthor(ctx context.Context, id int, author *domain.Author) (int error) {
+func (s *AuthorService) UpdateAuthor(ctx context.Context, id string, author *domain.Author) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }

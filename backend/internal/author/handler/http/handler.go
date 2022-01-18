@@ -28,7 +28,16 @@ func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 }
 
 func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
+	authorId := c.Param("id")
+	author, err := h.service.GetAuthorById(c, authorId)
 
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"author": author,
+	})
 }
 
 func (h *AuthorHandler) AddAuthor(c *gin.Context) {

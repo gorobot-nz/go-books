@@ -9,17 +9,17 @@ type Author struct {
 }
 
 type AuthorService interface {
-	AddAuthor(ctx context.Context, author *Author) (int, error)
+	AddAuthor(ctx context.Context, author *Author) (string, error)
 	GetAuthors(ctx context.Context) (*[]Author, error)
-	GetAuthorById(ctx context.Context, id int) (*Author, error)
-	DeleteAuthor(ctx context.Context, id int) (int, error)
-	UpdateAuthor(ctx context.Context, id int, author *Author) (int error)
+	GetAuthorById(ctx context.Context, id string) (*Author, error)
+	DeleteAuthor(ctx context.Context, id string) (string, error)
+	UpdateAuthor(ctx context.Context, id string, author *Author) (string, error)
 }
 
 type AuthorRepository interface {
-	AddAuthor(ctx context.Context, author *Author) (int, error)
+	AddAuthor(ctx context.Context, author *Author) (string, error)
 	GetAuthors(ctx context.Context) (*[]Author, error)
-	GetAuthorById(ctx context.Context, id int) (*Author, error)
-	DeleteAuthor(ctx context.Context, id int) (int, error)
-	UpdateAuthor(ctx context.Context, id int, author *Author) (int error)
+	GetAuthorById(ctx context.Context, id string) (*Author, error)
+	DeleteAuthor(ctx context.Context, id string) (string, error)
+	UpdateAuthor(ctx context.Context, id string, author *Author) (string, error)
 }
