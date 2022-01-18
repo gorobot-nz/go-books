@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gorobot-nz/go-books/pkg/middleware"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -56,6 +57,7 @@ type App struct {
 }
 
 func NewApp() *App {
+	initLog()
 	initConfig()
 	checkEnvVars()
 
@@ -81,8 +83,13 @@ func NewApp() *App {
 }
 
 func (a *App) Run() error {
+	gin.SetMode(gin.ReleaseMode)
+
 	router := gin.Default()
 	api := router.Group("api")
+
+	router.Use(middleware.CORS())
+	router.Use(middleware.Logging())
 
 	authorHttp.RegisterEndpoints(api, a.authorService)
 	bookHttp.RegisterEndpoints(api, a.bookService)
@@ -137,6 +144,11 @@ func initDb(cfg DbConfig) *sqlx.DB {
 	db.MustExec(schema)
 
 	return db
+}
+
+func initLog() {
+	logger := log.New()
+	logger.SetFormatter(&log.JSONFormatter{})
 }
 
 func checkEnvVars() {
