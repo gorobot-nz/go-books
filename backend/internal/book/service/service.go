@@ -18,7 +18,7 @@ func (b BookService) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 	panic("implement me")
 }
 
-func (b BookService) GetBookById(ctx context.Context, id int) (*domain.Book, error) {
+func (b BookService) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -28,17 +28,17 @@ func (b BookService) GetBooksByAuthorId(ctx context.Context, id int) (*[]domain.
 	panic("implement me")
 }
 
-func (b BookService) AddBook(ctx context.Context, book *domain.Book) (int, error) {
+func (b BookService) AddBook(ctx context.Context, book *domain.Book) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b BookService) UpdateBook(ctx context.Context, id int, book *domain.Book) (int, error) {
+func (b BookService) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b BookService) DeleteBook(ctx context.Context, id int) {
+func (b BookService) DeleteBook(ctx context.Context, id string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }

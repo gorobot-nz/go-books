@@ -19,7 +19,7 @@ func (b BookRepository) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 	panic("implement me")
 }
 
-func (b BookRepository) GetBookById(ctx context.Context, id int) (*domain.Book, error) {
+func (b BookRepository) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -29,17 +29,17 @@ func (b BookRepository) GetBooksByAuthorId(ctx context.Context, id int) (*[]doma
 	panic("implement me")
 }
 
-func (b BookRepository) AddBook(ctx context.Context, book *domain.Book) (int, error) {
+func (b BookRepository) AddBook(ctx context.Context, book *domain.Book) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b BookRepository) UpdateBook(ctx context.Context, id int, book *domain.Book) (int, error) {
+func (b BookRepository) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b BookRepository) DeleteBook(ctx context.Context, id int) {
+func (b BookRepository) DeleteBook(ctx context.Context, id string) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }
