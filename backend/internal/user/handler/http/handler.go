@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorobot-nz/go-books/internal/domain"
 	"github.com/gorobot-nz/go-books/internal/utils"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -47,12 +48,15 @@ func (h *UserHandler) SignIn(c *gin.Context) {
 		return
 	}
 
-	id, err := h.service.SignIn(c, input.Username, input.Password)
+	user, err := h.service.SignIn(c, input.Username, input.Password)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
+		return
 	}
 
+	log.Info(user.Username)
+
 	c.JSON(http.StatusAccepted, gin.H{
-		"id": id,
+		"user": *user,
 	})
 }

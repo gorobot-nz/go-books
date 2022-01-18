@@ -1,7 +1,7 @@
 package domain
 
 type Book struct {
-	Id          uint   `json:"-" db:"id"`
+	Id          uint   `json:"id" db:"id"`
 	UserId      uint   `json:"userId" binding:"required" db:"user_id"`
 	Title       string `json:"title" binding:"required" db:"title"`
 	Description string `json:"description" binding:"required" db:"description"`

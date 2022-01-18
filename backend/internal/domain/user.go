@@ -3,7 +3,7 @@ package domain
 import "context"
 
 type User struct {
-	Id       uint   `json:"-" db:"id"`
+	Id       uint   `json:"id" db:"id"`
 	Username string `json:"username" binding:"required" db:"username"`
 	Password string `json:"password" binding:"required" db:"password"`
 }
