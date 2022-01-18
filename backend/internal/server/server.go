@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorobot-nz/go-books/pkg/middleware"
 	"github.com/jmoiron/sqlx"
@@ -22,6 +21,7 @@ import (
 	userService "github.com/gorobot-nz/go-books/internal/user/service"
 
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -32,13 +32,13 @@ import (
 )
 
 const (
-	appport    = "port"
-	dbhost     = "POSTGRES_HOST"
-	dbusername = "POSTGRES_USER"
-	dbpassword = "POSTGRES_PASSWORD"
-	dbname     = "db.POSTGRES_DBNAME"
-	dbport     = "db.POSTGRES_DBPORT"
-	dbsslmode  = "db.POSTGRES_SSLMODE"
+	appPort    = "port"
+	dbHost     = "POSTGRES_HOST"
+	dbUsername = "POSTGRES_USER"
+	dbPassword = "POSTGRES_PASSWORD"
+	dbName     = "db.POSTGRES_DBNAME"
+	dbPort     = "db.POSTGRES_DBPORT"
+	dbSSLMode  = "db.POSTGRES_SSLMODE"
 )
 
 type DbConfig struct {
@@ -64,12 +64,12 @@ func NewApp() *App {
 	checkEnvVars()
 
 	cfg := DbConfig{
-		Host:     os.Getenv(dbhost),
-		Username: os.Getenv(dbusername),
-		Password: os.Getenv(dbpassword),
-		DBName:   viper.GetString(dbname),
-		Port:     viper.GetString(dbport),
-		SSLMode:  viper.GetString(dbsslmode),
+		Host:     os.Getenv(dbHost),
+		Username: os.Getenv(dbUsername),
+		Password: os.Getenv(dbPassword),
+		DBName:   viper.GetString(dbName),
+		Port:     viper.GetString(dbPort),
+		SSLMode:  viper.GetString(dbSSLMode),
 	}
 	dbConnection := initDb(cfg)
 
@@ -98,7 +98,7 @@ func (a *App) Run() error {
 	userHttp.RegisterEndpoints(router, a.userService)
 
 	a.server = &http.Server{
-		Addr:           ":" + viper.GetString(appport),
+		Addr:           ":" + viper.GetString(appPort),
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
@@ -160,7 +160,7 @@ func checkEnvVars() {
 		log.Fatalf("Env error: %s", err.Error())
 	}
 
-	requiredEnvs := []string{dbhost, dbusername, dbpassword}
+	requiredEnvs := []string{dbHost, dbUsername, dbPassword}
 	var msg []string
 	for _, el := range requiredEnvs {
 		val, exists := os.LookupEnv(el)
