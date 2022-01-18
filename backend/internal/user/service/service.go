@@ -25,7 +25,7 @@ func (u *UserService) SignUp(ctx context.Context, user *domain.User) (int, error
 }
 
 func (u *UserService) SignIn(ctx context.Context, username, password string) (*domain.User, error) {
-	return nil, nil
+	return u.repository.SignIn(ctx, username, password)
 }
 
 func hashPassword(password string) string {
