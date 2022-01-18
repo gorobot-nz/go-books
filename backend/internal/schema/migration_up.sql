@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS books
     user_id          SERIAL REFERENCES users (id) ON DELETE CASCADE NOT NULL,
     title            TEXT                                           NOT NULL,
     description      TEXT                                           NOT NULL,
+    price            INTEGER                                        NOT NULL,
     publication_date DATE,
     created_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW()
