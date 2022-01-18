@@ -75,5 +75,21 @@ func (h *BookHandler) DeleteBook(c *gin.Context) {
 }
 
 func (h *BookHandler) UpdateBook(c *gin.Context) {
+	bookId := c.Param("id")
+	var book domain.Book
 
+	if err := c.BindJSON(&book); err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	id, err := h.service.UpdateBook(c, bookId, &book)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"id": id,
+	})
 }

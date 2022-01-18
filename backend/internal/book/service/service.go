@@ -36,6 +36,5 @@ func (b *BookService) UpdateBook(ctx context.Context, id string, book *domain.Bo
 }
 
 func (b *BookService) DeleteBook(ctx context.Context, id string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	return b.repository.DeleteBook(ctx, id)
 }

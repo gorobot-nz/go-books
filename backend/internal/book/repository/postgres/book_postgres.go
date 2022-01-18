@@ -90,7 +90,17 @@ func (r *BookRepository) UpdateBook(ctx context.Context, id string, book *domain
 	return id, err
 }
 
-func (b *BookRepository) DeleteBook(ctx context.Context, id string) (string, error) {
-	//TODO implement me
-	panic("implement me")
+func (r *BookRepository) DeleteBook(ctx context.Context, id string) (string, error) {
+	bookId, err := strconv.Atoi(id)
+	if err != nil {
+		return "0", err
+	}
+
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", booksTable)
+
+	_, err = r.db.Exec(query, bookId)
+	if err != nil {
+		return "0", err
+	}
+	return id, nil
 }
