@@ -5,8 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
@@ -24,6 +26,16 @@ import (
 	"os"
 	"os/signal"
 	"time"
+)
+
+const (
+	appport    = "port"
+	dbhost     = "POSTGRES_HOST"
+	dbusername = "POSTGRES_USER"
+	dbpassword = "POSTGRES_PASSWORD"
+	dbname     = "db.POSTGRES_DBNAME"
+	dbport     = "db.POSTGRES_DBPORT"
+	dbsslmode  = "db.POSTGRES_SSLMODE"
 )
 
 type DbConfig struct {
@@ -44,7 +56,17 @@ type App struct {
 }
 
 func NewApp() *App {
-	cfg := DbConfig{}
+	initConfig()
+	checkEnvVars()
+
+	cfg := DbConfig{
+		Host:     os.Getenv(dbhost),
+		Username: os.Getenv(dbusername),
+		Password: os.Getenv(dbpassword),
+		DBName:   viper.GetString(dbname),
+		Port:     viper.GetString(dbport),
+		SSLMode:  viper.GetString(dbsslmode),
+	}
 	dbConnection := initDb(cfg)
 
 	userRepository := userPostgres.NewUserRepository(dbConnection)
@@ -67,7 +89,7 @@ func (a *App) Run() error {
 	userHttp.RegisterEndpoints(router, a.userService)
 
 	a.server = &http.Server{
-		Addr:           ":8000",
+		Addr:           ":" + viper.GetString(appport),
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
@@ -117,10 +139,24 @@ func initDb(cfg DbConfig) *sqlx.DB {
 	return db
 }
 
-func checkEnvVars() error {
-	return nil
+func checkEnvVars() {
+	requiredEnvs := []string{dbhost, dbusername, dbpassword}
+	var msg []string
+	for _, el := range requiredEnvs {
+		val, exists := os.LookupEnv(el)
+		if !exists || len(val) == 0 {
+			msg = append(msg, el)
+		}
+	}
+	if len(msg) > 0 {
+		log.Fatal(strings.Join(msg, ", "), " env(s) not set")
+	}
 }
 
-func initConfig() error {
-	return nil
+func initConfig() {
+	viper.AddConfigPath("configs")
+	viper.SetConfigName("config")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatal("Error of config init")
+	}
 }
