@@ -12,8 +12,8 @@ func RegisterEndpoints(r *gin.RouterGroup, service domain.AuthorService) {
 	{
 		authorEndpoints.POST("", h.AddAuthor)
 		authorEndpoints.GET("", h.GetAuthors)
-		authorEndpoints.GET("/:id", h.AddAuthor)
-		authorEndpoints.DELETE("/:id", h.AddAuthor)
-		authorEndpoints.PUT("/:id", h.AddAuthor)
+		authorEndpoints.GET("/:id", h.GetAuthorById)
+		authorEndpoints.DELETE("/:id", h.DeleteAuthor)
+		authorEndpoints.PUT("/:id", h.UpdateAuthor)
 	}
 }

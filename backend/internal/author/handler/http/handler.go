@@ -17,7 +17,7 @@ func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 
 }
 
-func (h *AuthorHandler) GetAuthorId(c *gin.Context) {
+func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 
 }
 
