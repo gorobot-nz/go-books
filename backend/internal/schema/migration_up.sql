@@ -13,14 +13,18 @@ CREATE TABLE IF NOT EXISTS books
     user_id          SERIAL REFERENCES users (id) ON DELETE CASCADE NOT NULL,
     title            TEXT                                           NOT NULL,
     description      TEXT                                           NOT NULL,
-    publication_date DATE
+    publication_date DATE,
+    created_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW(),
+    updated_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS authors
 (
-    id      SERIAL PRIMARY KEY NOT NULL UNIQUE,
-    name    TEXT               NOT NULL,
-    surname TEXT               NOT NULL
+    id         SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    name       TEXT               NOT NULL,
+    surname    TEXT               NOT NULL,
+    created_at TIMESTAMPTZ        NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ        NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS books_authors

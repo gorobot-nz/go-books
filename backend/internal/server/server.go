@@ -5,11 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorobot-nz/go-books/pkg/middleware"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"io/ioutil"
-	"path/filepath"
-	"strings"
 
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
@@ -23,9 +22,12 @@ import (
 	userService "github.com/gorobot-nz/go-books/internal/user/service"
 
 	"context"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -103,6 +105,8 @@ func (a *App) Run() error {
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	log.Info("Server start")
+
 	go func() {
 		if err := a.server.ListenAndServe(); err != nil {
 			log.Fatalf("Failed to listen and serve: %+v", err)
@@ -152,6 +156,10 @@ func initLog() {
 }
 
 func checkEnvVars() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Env error: %s", err.Error())
+	}
+
 	requiredEnvs := []string{dbhost, dbusername, dbpassword}
 	var msg []string
 	for _, el := range requiredEnvs {
