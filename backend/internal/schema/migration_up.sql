@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS books
     title            TEXT                                           NOT NULL,
     description      TEXT                                           NOT NULL,
     price            INTEGER                                        NOT NULL,
-    publication_date DATE,
+    publication_date DATE                                           NOT NULL,
     created_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMPTZ                                    NOT NULL DEFAULT NOW()
 );
