@@ -44,12 +44,18 @@ func (h *BookHandler) GetBookById(c *gin.Context) {
 
 func (h *BookHandler) AddBook(c *gin.Context) {
 	var book domain.Book
-
 	if err := c.BindJSON(&book); err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return
 	}
 
+	userId, err := utils.GetUserId(c)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	book.UserId = userId
 	id, err := h.service.AddBook(c, &book)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
@@ -84,6 +90,13 @@ func (h *BookHandler) UpdateBook(c *gin.Context) {
 		return
 	}
 
+	userId, err := utils.GetUserId(c)
+	if err != nil {
+		utils.ErrorMessage(c, err.Error())
+		return
+	}
+
+	book.UserId = userId
 	id, err := h.service.UpdateBook(c, bookId, &book)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())

@@ -14,6 +14,7 @@ const (
 	salt      = "sajdaoi3232i1oji"
 	signInKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
 	tokenTTL  = 12 * time.Hour
+	userCtx   = "userId"
 )
 
 type tokenClaims struct {
@@ -31,6 +32,20 @@ func AuthErrorMessage(c *gin.Context, message string) {
 	c.JSON(http.StatusUnauthorized, gin.H{
 		"error": message,
 	})
+}
+
+func GetUserId(c *gin.Context) (uint, error) {
+	id, ok := c.Get(userCtx)
+	if !ok {
+		return 0, errors.New("user id not found")
+	}
+
+	idInt, ok := id.(uint)
+	if !ok {
+		return 0, errors.New("user id is of invalid type")
+	}
+
+	return idInt, nil
 }
 
 func HashPassword(password string) string {

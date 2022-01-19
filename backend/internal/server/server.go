@@ -90,6 +90,7 @@ func (a *App) Run() error {
 	router := gin.Default()
 	api := router.Group("api")
 
+	api.Use(middleware.CheckToken())
 	router.Use(middleware.CORS())
 	router.Use(middleware.Logging())
 
