@@ -10,7 +10,7 @@ type User struct {
 
 type UserService interface {
 	SignUp(ctx context.Context, user *User) (int, error)
-	SignIn(ctx context.Context, username, password string) (*User, error)
+	SignIn(ctx context.Context, username, password string) (string, error)
 }
 
 type UserRepository interface {

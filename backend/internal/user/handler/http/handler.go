@@ -47,13 +47,13 @@ func (h *UserHandler) SignIn(c *gin.Context) {
 		return
 	}
 
-	user, err := h.service.SignIn(c, input.Username, input.Password)
+	token, err := h.service.SignIn(c, input.Username, input.Password)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusAccepted, gin.H{
-		"user": user,
+		"token": token,
 	})
 }
