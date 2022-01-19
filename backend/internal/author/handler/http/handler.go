@@ -16,6 +16,11 @@ func NewAuthorHandler(service domain.AuthorService) *AuthorHandler {
 }
 
 func (h *AuthorHandler) AddAuthor(c *gin.Context) {
+	_, err := utils.GetUserId(c)
+	if err != nil {
+		return
+	}
+
 	var author domain.Author
 
 	if err := c.BindJSON(&author); err != nil {
@@ -34,6 +39,11 @@ func (h *AuthorHandler) AddAuthor(c *gin.Context) {
 }
 
 func (h *AuthorHandler) GetAuthors(c *gin.Context) {
+	_, err := utils.GetUserId(c)
+	if err != nil {
+		return
+	}
+
 	authors, err := h.service.GetAuthors(c)
 
 	if err != nil {
@@ -47,6 +57,11 @@ func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 }
 
 func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
+	_, err := utils.GetUserId(c)
+	if err != nil {
+		return
+	}
+
 	authorId := c.Param("id")
 
 	author, err := h.service.GetAuthorById(c, authorId)
@@ -61,6 +76,11 @@ func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 }
 
 func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
+	_, err := utils.GetUserId(c)
+	if err != nil {
+		return
+	}
+
 	authorId := c.Param("id")
 
 	id, err := h.service.DeleteAuthor(c, authorId)
@@ -75,6 +95,11 @@ func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
 }
 
 func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
+	_, err := utils.GetUserId(c)
+	if err != nil {
+		return
+	}
+
 	authorId := c.Param("id")
 	var author domain.Author
 

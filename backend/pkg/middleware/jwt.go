@@ -13,7 +13,7 @@ const (
 
 func CheckToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Next()
+
 		header := c.GetHeader(authHeader)
 		if header == "" {
 			utils.AuthErrorMessage(c, "Empty header")
@@ -38,5 +38,6 @@ func CheckToken() gin.HandlerFunc {
 		}
 
 		c.Set(userCtx, userId)
+		c.Next()
 	}
 }
