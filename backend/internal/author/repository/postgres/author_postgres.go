@@ -52,7 +52,7 @@ func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domai
 
 	query := fmt.Sprintf("SELECT id, name, surname FROM %s WHERE id=$1", authorsTable)
 
-	err = r.db.Select(&author, query, authorId)
+	err = r.db.Get(&author, query, authorId)
 	if err != nil {
 		return nil, err
 	}

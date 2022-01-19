@@ -53,6 +53,7 @@ func (h *BookHandler) AddBook(c *gin.Context) {
 	id, err := h.service.AddBook(c, &book)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
