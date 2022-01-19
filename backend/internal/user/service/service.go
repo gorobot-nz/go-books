@@ -14,7 +14,7 @@ func NewUserService(repository domain.UserRepository) *UserService {
 	return &UserService{repository: repository}
 }
 
-func (s *UserService) SignUp(ctx context.Context, user *domain.User) (int, error) {
+func (s *UserService) SignUp(ctx context.Context, user *domain.User) (uint, error) {
 	user.Password = utils.HashPassword(user.Password)
 	return s.repository.SignUp(ctx, user)
 }

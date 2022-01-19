@@ -17,8 +17,8 @@ func NewUserRepository(db *sqlx.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func (r *UserRepository) SignUp(ctx context.Context, user *domain.User) (int, error) {
-	var id int
+func (r *UserRepository) SignUp(ctx context.Context, user *domain.User) (uint, error) {
+	var id uint
 
 	query := fmt.Sprintf("INSERT INTO %s (username, password) values ($1, $2) RETURNING id", usersTable)
 

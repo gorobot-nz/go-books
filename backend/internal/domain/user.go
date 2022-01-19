@@ -9,11 +9,11 @@ type User struct {
 }
 
 type UserService interface {
-	SignUp(ctx context.Context, user *User) (int, error)
+	SignUp(ctx context.Context, user *User) (uint, error)
 	SignIn(ctx context.Context, username, password string) (string, error)
 }
 
 type UserRepository interface {
-	SignUp(ctx context.Context, user *User) (int, error)
+	SignUp(ctx context.Context, user *User) (uint, error)
 	SignIn(ctx context.Context, username, password string) (*User, error)
 }
