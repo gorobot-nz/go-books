@@ -1,12 +1,14 @@
 package http
 
 import (
-	"bytes"
-	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/gorobot-nz/go-books/internal/book/service"
 	"github.com/gorobot-nz/go-books/internal/domain"
-	"github.com/stretchr/testify/assert"
+
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
