@@ -26,6 +26,11 @@ func (b *BookService) GetBooksByAuthorId(ctx context.Context, id int) (*[]domain
 	panic("implement me")
 }
 
+func (b *BookService) AddAuthorToBook(ctx context.Context, bookId, authorId uint) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (b *BookService) AddBook(ctx context.Context, book *domain.Book) (string, error) {
 	return b.repository.AddBook(ctx, book)
 }

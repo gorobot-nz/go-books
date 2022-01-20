@@ -7,6 +7,8 @@ import (
 	"net/http"
 )
 
+const adminId = 2
+
 type AuthorHandler struct {
 	service domain.AuthorService
 }
@@ -16,8 +18,13 @@ func NewAuthorHandler(service domain.AuthorService) *AuthorHandler {
 }
 
 func (h *AuthorHandler) AddAuthor(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, roleId, ok := utils.GetUserIdAndRole(c)
+	if !ok {
+		return
+	}
+
+	if roleId != adminId {
+		utils.AuthErrorMessage(c, "Don't have enough rights")
 		return
 	}
 
@@ -39,8 +46,8 @@ func (h *AuthorHandler) AddAuthor(c *gin.Context) {
 }
 
 func (h *AuthorHandler) GetAuthors(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -57,8 +64,8 @@ func (h *AuthorHandler) GetAuthors(c *gin.Context) {
 }
 
 func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -76,8 +83,13 @@ func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 }
 
 func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, roleId, ok := utils.GetUserIdAndRole(c)
+	if !ok {
+		return
+	}
+
+	if roleId != adminId {
+		utils.AuthErrorMessage(c, "Don't have enough rights")
 		return
 	}
 
@@ -95,8 +107,13 @@ func (h *AuthorHandler) DeleteAuthor(c *gin.Context) {
 }
 
 func (h *AuthorHandler) UpdateAuthor(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, roleId, ok := utils.GetUserIdAndRole(c)
+	if !ok {
+		return
+	}
+
+	if roleId != adminId {
+		utils.AuthErrorMessage(c, "Don't have enough rights")
 		return
 	}
 

@@ -55,6 +55,11 @@ func (r *BookRepository) GetBooksByAuthorId(ctx context.Context, id int) (*[]dom
 	panic("implement me")
 }
 
+func (r *BookRepository) AddAuthorToBook(ctx context.Context, bookId, authorId uint) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book) (string, error) {
 	var id int
 
@@ -63,9 +68,9 @@ func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book) (string
 		return "0", err
 	}
 
-	query := fmt.Sprintf("INSERT INTO %s (user_id, title, description, price, publication_date) values ($1, $2, $3, $4, $5) RETURNING id", booksTable)
+	query := fmt.Sprintf("INSERT INTO %s (title, description, price, publication_date) values ($1, $2, $3, $4) RETURNING id", booksTable)
 
-	row := r.db.QueryRow(query, book.UserId, book.Title, book.Description, book.Price, date)
+	row := r.db.QueryRow(query, book.Title, book.Description, book.Price, date)
 	if err := row.Scan(&id); err != nil {
 		return "0", err
 	}
@@ -85,9 +90,9 @@ func (r *BookRepository) UpdateBook(ctx context.Context, id string, book *domain
 	}
 
 	query := fmt.Sprintf("UPDATE %s "+
-		"SET user_id=$1, title=$2, description=$3, price=$4, publication_date=$5 WHERE id=$6", booksTable)
+		"SET title=$1, description=$2, price=$3, publication_date=$4 WHERE id=$5", booksTable)
 
-	_, err = r.db.Exec(query, book.UserId, book.Title, book.Description, book.Price, date, bookId)
+	_, err = r.db.Exec(query, book.Title, book.Description, book.Price, date, bookId)
 	if err != nil {
 		return "0", err
 	}

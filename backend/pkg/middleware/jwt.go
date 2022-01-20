@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	authHeader  = "Authorization"
-	userCtx     = "userId"
-	userRoleCtx = "userRole"
+	authHeader    = "Authorization"
+	userIdCtx     = "userId"
+	userRoleIdCtx = "userRoleId"
 )
 
 func CheckToken() gin.HandlerFunc {
@@ -38,8 +38,8 @@ func CheckToken() gin.HandlerFunc {
 			return
 		}
 
-		c.Set(userCtx, userId)
-		c.Set(userRoleCtx, userRoleId)
+		c.Set(userIdCtx, userId)
+		c.Set(userRoleIdCtx, userRoleId)
 		c.Next()
 	}
 }

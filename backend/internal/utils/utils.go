@@ -6,21 +6,25 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/gorobot-nz/go-books/internal/domain"
 	"net/http"
 	"time"
 )
 
 const (
-	salt      = "sajdaoi3232i1oji"
-	signInKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
-	tokenTTL  = 12 * time.Hour
-	userCtx   = "userId"
+	salt          = "sajdaoi3232i1oji"
+	signInKey     = "qrkjk#4#%35FSFJlja#4353KSFjH"
+	tokenTTL      = 12 * time.Hour
+	userIdCtx     = "userId"
+	userRoleIdCtx = "userRoleId"
 )
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId     uint `json:"user_id"`
-	UserRoleId uint `json:"user_role_id"`
+	UserId      uint   `json:"user_id"`
+	UserRoleId  uint   `json:"user_role_id"`
+	UserName    string `json:"user_name"`
+	UserSurname string `json:"user_surname"`
 }
 
 func ErrorMessage(c *gin.Context, message string) {
@@ -35,18 +39,30 @@ func AuthErrorMessage(c *gin.Context, message string) {
 	})
 }
 
-func GetUserId(c *gin.Context) (uint, error) {
-	id, ok := c.Get(userCtx)
+func GetUserIdAndRole(c *gin.Context) (uint, uint, bool) {
+	userId, ok := getCtxVar(c, userIdCtx)
 	if !ok {
-		return 0, errors.New("user id not found")
+		return 0, 0, ok
 	}
 
-	idInt, ok := id.(uint)
+	userRoleId, ok := getCtxVar(c, userRoleIdCtx)
 	if !ok {
-		return 0, errors.New("user id is of invalid type")
+		return 0, 0, ok
+	}
+	return userId, userRoleId, ok
+}
+
+func getCtxVar(c *gin.Context, name string) (uint, bool) {
+	value, ok := c.Get(name)
+	if !ok {
+		return 0, false
 	}
 
-	return idInt, nil
+	valueUint, ok := value.(uint)
+	if !ok {
+		return 0, false
+	}
+	return valueUint, true
 }
 
 func HashPassword(password string) string {
@@ -56,14 +72,16 @@ func HashPassword(password string) string {
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
 
-func GenerateToken(id uint, roleId uint) (string, error) {
+func GenerateToken(user *domain.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
-		id,
-		roleId,
+		user.Id,
+		user.RoleId,
+		user.Name,
+		user.Surname,
 	})
 	return token.SignedString([]byte(signInKey))
 }

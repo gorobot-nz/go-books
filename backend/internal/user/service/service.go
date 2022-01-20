@@ -25,5 +25,5 @@ func (s *UserService) SignIn(ctx context.Context, username, password string) (st
 		return "", err
 	}
 
-	return utils.GenerateToken(user.Id)
+	return utils.GenerateToken(user)
 }
