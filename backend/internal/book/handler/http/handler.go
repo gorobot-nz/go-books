@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+const adminId = 2
+
+type bookInput struct {
+	Book    domain.Book `json:"book" binding:"required"`
+	Authors []uint      `json:"authors" binding:"required"`
+}
+
 type BookHandler struct {
 	service domain.BookService
 }
@@ -53,18 +60,23 @@ func (h *BookHandler) GetBookById(c *gin.Context) {
 }
 
 func (h *BookHandler) AddBook(c *gin.Context) {
-	_, _, ok := utils.GetUserIdAndRole(c)
+	_, roleId, ok := utils.GetUserIdAndRole(c)
 	if !ok {
 		return
 	}
 
-	var book domain.Book
-	if err := c.BindJSON(&book); err != nil {
+	if roleId != adminId {
+		utils.AuthErrorMessage(c, "Don't have enough rights")
+		return
+	}
+
+	var input bookInput
+	if err := c.BindJSON(&input); err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return
 	}
 
-	id, err := h.service.AddBook(c, &book)
+	id, err := h.service.AddBook(c, &input.Book, &input.Authors)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return

@@ -10,8 +10,9 @@ import (
 )
 
 const (
-	booksTable = "books"
-	dateLayout = "2006"
+	booksTable        = "books"
+	booksAuthorsTable = "books_authors"
+	dateLayout        = "2006"
 )
 
 type BookRepository struct {
@@ -55,7 +56,7 @@ func (r *BookRepository) GetBooksByAuthor(ctx context.Context, id int) (*[]domai
 	panic("implement me")
 }
 
-func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book) (string, error) {
+func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book, authors *[]uint) (string, error) {
 	var id int
 
 	date, err := time.Parse(dateLayout, book.Date)
@@ -63,11 +64,23 @@ func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book) (string
 		return "0", err
 	}
 
+	tx, err := r.db.Begin()
+
 	query := fmt.Sprintf("INSERT INTO %s (title, description, price, publication_date) values ($1, $2, $3, $4) RETURNING id", booksTable)
 
-	row := r.db.QueryRow(query, book.Title, book.Description, book.Price, date)
+	row := tx.QueryRow(query, book.Title, book.Description, book.Price, date)
 	if err := row.Scan(&id); err != nil {
+		tx.Rollback()
 		return "0", err
+	}
+
+	connectBookAndAuthorsQuery := fmt.Sprintf("INSERT INTO %s (book_id, auhtor_id) values ($1, $2)", booksAuthorsTable)
+	for _, value := range *authors {
+		_, err := tx.Exec(connectBookAndAuthorsQuery, id, value)
+		if err != nil {
+			tx.Rollback()
+			return "0", err
+		}
 	}
 
 	return strconv.Itoa(id), nil
