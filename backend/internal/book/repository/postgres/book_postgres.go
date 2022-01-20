@@ -36,7 +36,7 @@ func (r *BookRepository) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 	return &books, nil
 }
 
-func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.BookWithAuthors, error) {
+func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
 	var book domain.Book
 	bookId, err := strconv.Atoi(id)
 	if err != nil {

@@ -34,7 +34,16 @@ func (b *BookService) GetBooks(ctx context.Context) (*[]domain.BookWithAuthors, 
 }
 
 func (b *BookService) GetBookById(ctx context.Context, id string) (*domain.BookWithAuthors, error) {
-	panic("")
+	book, err := b.bookRepository.GetBookById(ctx, id)
+	if err != nil {
+		return nil, nil
+	}
+
+	bookWithAuthors, err := b.bookRepository.GetBookWithAuthors(ctx, book)
+	if err != nil {
+		return nil, nil
+	}
+	return bookWithAuthors, nil
 }
 
 func (b *BookService) AddBook(ctx context.Context, book *domain.Book, authors *[]uint) (string, error) {
