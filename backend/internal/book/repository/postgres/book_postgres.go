@@ -12,6 +12,7 @@ import (
 const (
 	booksTable        = "books"
 	booksAuthorsTable = "books_authors"
+	authorsTable      = "authors"
 	dateLayout        = "2006"
 )
 
@@ -35,7 +36,7 @@ func (r *BookRepository) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 	return &books, nil
 }
 
-func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
+func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.BookWithAuthors, error) {
 	var book domain.Book
 	bookId, err := strconv.Atoi(id)
 	if err != nil {
@@ -48,12 +49,24 @@ func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Bo
 	if err != nil {
 		return nil, err
 	}
-	return &book, nil
+	return nil, nil
 }
 
-func (r *BookRepository) GetBooksByAuthor(ctx context.Context, id int) (*[]domain.Book, error) {
-	//TODO implement me
-	panic("implement me")
+func (r *BookRepository) GetBookWithAuthors(ctx context.Context, book *domain.Book) (*domain.BookWithAuthors, error) {
+	var authors []domain.Author
+
+	var bookWithAuthors domain.BookWithAuthors
+	bookWithAuthors.Book = *book
+
+	query := fmt.Sprintf(`SELECT a.id, a.name, a.surname FROM %s a INNER JOIN %s ba ON a.id=ba.author_id
+																			INNER JOIN %s b ON ba.book_id=b.id WHERE b.id=$1`, authorsTable, booksAuthorsTable, booksTable)
+
+	err := r.db.Select(&authors, query, book.Id)
+	if err != nil {
+		return nil, err
+	}
+	bookWithAuthors.Authors = authors
+	return &bookWithAuthors, nil
 }
 
 func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book, authors *[]uint) (string, error) {

@@ -8,6 +8,11 @@ type Author struct {
 	Surname string `json:"surname" binding:"required" db:"surname"`
 }
 
+type AuthorWithBooks struct {
+	Author Author
+	Books  []Book
+}
+
 type AuthorService interface {
 	AddAuthor(ctx context.Context, author *Author) (string, error)
 	GetAuthors(ctx context.Context) (*[]Author, error)

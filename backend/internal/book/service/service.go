@@ -14,17 +14,27 @@ func NewBookService(bookRepository domain.BookRepository, authorRepository domai
 	return &BookService{bookRepository: bookRepository, authorRepository: authorRepository}
 }
 
-func (b *BookService) GetBooks(ctx context.Context) (*[]domain.Book, error) {
-	panic("")
+func (b *BookService) GetBooks(ctx context.Context) (*[]domain.BookWithAuthors, error) {
+	var booksWithAuthors []domain.BookWithAuthors
+
+	books, err := b.bookRepository.GetBooks(ctx)
+	if err != nil {
+		return nil, nil
+	}
+
+	for _, value := range *books {
+		bookWithAuthor, err := b.bookRepository.GetBookWithAuthors(ctx, &value)
+		if err != nil {
+			return nil, err
+		}
+
+		booksWithAuthors = append(booksWithAuthors, *bookWithAuthor)
+	}
+	return &booksWithAuthors, nil
 }
 
-func (b *BookService) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
+func (b *BookService) GetBookById(ctx context.Context, id string) (*domain.BookWithAuthors, error) {
 	panic("")
-}
-
-func (b *BookService) GetBooksByAuthor(ctx context.Context, id int) (*[]domain.Book, error) {
-	//TODO implement me
-	panic("implement me")
 }
 
 func (b *BookService) AddBook(ctx context.Context, book *domain.Book, authors *[]uint) (string, error) {
