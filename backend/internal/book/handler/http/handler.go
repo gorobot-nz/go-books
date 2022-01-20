@@ -16,8 +16,8 @@ func NewBookHandler(service domain.BookService) *BookHandler {
 }
 
 func (h *BookHandler) GetBooks(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -34,8 +34,8 @@ func (h *BookHandler) GetBooks(c *gin.Context) {
 }
 
 func (h *BookHandler) GetBookById(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -53,8 +53,8 @@ func (h *BookHandler) GetBookById(c *gin.Context) {
 }
 
 func (h *BookHandler) AddBook(c *gin.Context) {
-	userId, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -64,7 +64,6 @@ func (h *BookHandler) AddBook(c *gin.Context) {
 		return
 	}
 
-	book.UserId = userId
 	id, err := h.service.AddBook(c, &book)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
@@ -77,8 +76,8 @@ func (h *BookHandler) AddBook(c *gin.Context) {
 }
 
 func (h *BookHandler) DeleteBook(c *gin.Context) {
-	_, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -96,8 +95,8 @@ func (h *BookHandler) DeleteBook(c *gin.Context) {
 }
 
 func (h *BookHandler) UpdateBook(c *gin.Context) {
-	userId, err := utils.GetUserId(c)
-	if err != nil {
+	_, _, ok := utils.GetUserIdAndRole(c)
+	if !ok {
 		return
 	}
 
@@ -108,7 +107,6 @@ func (h *BookHandler) UpdateBook(c *gin.Context) {
 		return
 	}
 
-	book.UserId = userId
 	id, err := h.service.UpdateBook(c, bookId, &book)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())

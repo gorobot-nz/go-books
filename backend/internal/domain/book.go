@@ -13,9 +13,8 @@ type Book struct {
 type BookService interface {
 	GetBooks(ctx context.Context) (*[]Book, error)
 	GetBookById(ctx context.Context, id string) (*Book, error)
-	GetBooksByAuthorId(ctx context.Context, id int) (*[]Book, error)
+	GetBooksByAuthor(ctx context.Context, id int) (*[]Book, error)
 	AddBook(ctx context.Context, book *Book) (string, error)
-	AddAuthorToBook(ctx context.Context, bookId, authorId uint) (bool, error)
 	UpdateBook(ctx context.Context, id string, book *Book) (string, error)
 	DeleteBook(ctx context.Context, id string) (string, error)
 }
@@ -25,7 +24,6 @@ type BookRepository interface {
 	GetBookById(ctx context.Context, id string) (*Book, error)
 	GetBooksByAuthorId(ctx context.Context, id int) (*[]Book, error)
 	AddBook(ctx context.Context, book *Book) (string, error)
-	AddAuthorToBook(ctx context.Context, bookId, authorId uint) (bool, error)
 	UpdateBook(ctx context.Context, id string, book *Book) (string, error)
 	DeleteBook(ctx context.Context, id string) (string, error)
 }

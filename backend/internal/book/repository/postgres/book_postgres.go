@@ -50,12 +50,7 @@ func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Bo
 	return &book, nil
 }
 
-func (r *BookRepository) GetBooksByAuthorId(ctx context.Context, id int) (*[]domain.Book, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (r *BookRepository) AddAuthorToBook(ctx context.Context, bookId, authorId uint) (bool, error) {
+func (r *BookRepository) GetBooksByAuthor(ctx context.Context, id int) (*[]domain.Book, error) {
 	//TODO implement me
 	panic("implement me")
 }
