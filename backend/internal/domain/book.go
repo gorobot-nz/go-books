@@ -4,7 +4,6 @@ import "context"
 
 type Book struct {
 	Id          uint   `json:"id" db:"id"`
-	UserId      uint   `json:"userId" db:"user_id"`
 	Title       string `json:"title" binding:"required" db:"title"`
 	Description string `json:"description" binding:"required" db:"description"`
 	Price       uint   `json:"price" binding:"required" db:"price"`

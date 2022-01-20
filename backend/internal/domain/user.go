@@ -6,7 +6,9 @@ type User struct {
 	Id       uint   `json:"id" db:"id"`
 	Username string `json:"username" binding:"required" db:"username"`
 	Password string `json:"password" binding:"required" db:"password"`
-	RoleId   uint   `json:"roleId" binding:"required" db:"role_id"`
+	Name     string `json:"name" binding:"required" db:"name"`
+	Surname  string `json:"surname" binding:"required" db:"surname"`
+	RoleId   uint   `json:"roleId" db:"role_id"`
 }
 
 type UserService interface {

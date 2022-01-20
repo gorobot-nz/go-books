@@ -11,21 +11,20 @@ CREATE TABLE IF NOT EXISTS users
     id         SERIAL PRIMARY KEY                             NOT NULL UNIQUE,
     username   TEXT                                           NOT NULL UNIQUE,
     password   TEXT                                           NOT NULL,
-    role_id    SERIAL REFERENCES roles (id) ON DELETE CASCADE NOT NULL,
+    role_id    SERIAL REFERENCES roles (id) ON DELETE CASCADE NOT NULL DEFAULT 1,
     created_at TIMESTAMPTZ                                    NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ                                    NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS books
 (
-    id               SERIAL PRIMARY KEY                                 NOT NULL UNIQUE,
-    user_id          SERIAL REFERENCES users (id) ON DELETE SET DEFAULT NOT NULL,
-    title            TEXT                                               NOT NULL,
-    description      TEXT                                               NOT NULL,
-    price            INTEGER                                            NOT NULL,
-    publication_date DATE                                               NOT NULL,
-    created_at       TIMESTAMPTZ                                        NOT NULL DEFAULT NOW(),
-    updated_at       TIMESTAMPTZ                                        NOT NULL DEFAULT NOW()
+    id               SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    title            TEXT               NOT NULL,
+    description      TEXT               NOT NULL,
+    price            INTEGER            NOT NULL,
+    publication_date DATE               NOT NULL,
+    created_at       TIMESTAMPTZ        NOT NULL DEFAULT NOW(),
+    updated_at       TIMESTAMPTZ        NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS authors

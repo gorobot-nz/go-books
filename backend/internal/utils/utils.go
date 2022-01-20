@@ -19,7 +19,8 @@ const (
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId uint `json:"user_id"`
+	UserId     uint `json:"user_id"`
+	UserRoleId uint `json:"user_role_id"`
 }
 
 func ErrorMessage(c *gin.Context, message string) {
@@ -55,18 +56,19 @@ func HashPassword(password string) string {
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
 
-func GenerateToken(id uint) (string, error) {
+func GenerateToken(id uint, roleId uint) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 			IssuedAt:  time.Now().Unix(),
 		},
 		id,
+		roleId,
 	})
 	return token.SignedString([]byte(signInKey))
 }
 
-func ParseToken(accessToken string) (uint, error) {
+func ParseToken(accessToken string) (uint, uint, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
@@ -75,13 +77,13 @@ func ParseToken(accessToken string) (uint, error) {
 		return []byte(signInKey), nil
 	})
 	if err != nil {
-		return 0, err
+		return 0, 0, err
 	}
 
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return 0, errors.New("token claims are not of type *tokenClaims")
+		return 0, 0, errors.New("token claims are not of type *tokenClaims")
 	}
 
-	return claims.UserId, nil
+	return claims.UserId, claims.UserRoleId, nil
 }

@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	authHeader = "Authorization"
-	userCtx    = "userId"
+	authHeader  = "Authorization"
+	userCtx     = "userId"
+	userRoleCtx = "userRole"
 )
 
 func CheckToken() gin.HandlerFunc {
@@ -31,13 +32,14 @@ func CheckToken() gin.HandlerFunc {
 			return
 		}
 
-		userId, err := utils.ParseToken(headerParts[1])
+		userId, userRoleId, err := utils.ParseToken(headerParts[1])
 		if err != nil {
 			utils.AuthErrorMessage(c, "Wrong token")
 			return
 		}
 
 		c.Set(userCtx, userId)
+		c.Set(userRoleCtx, userRoleId)
 		c.Next()
 	}
 }
