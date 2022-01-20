@@ -6,19 +6,20 @@ import (
 )
 
 type BookService struct {
-	repository domain.BookRepository
+	bookRepository   domain.BookRepository
+	authorRepository domain.AuthorRepository
 }
 
-func NewBookService(repository domain.BookRepository) *BookService {
-	return &BookService{repository: repository}
+func NewBookService(bookRepository domain.BookRepository, authorRepository domain.AuthorRepository) *BookService {
+	return &BookService{bookRepository: bookRepository, authorRepository: authorRepository}
 }
 
 func (b *BookService) GetBooks(ctx context.Context) (*[]domain.Book, error) {
-	return b.repository.GetBooks(ctx)
+	panic("")
 }
 
 func (b *BookService) GetBookById(ctx context.Context, id string) (*domain.Book, error) {
-	return b.repository.GetBookById(ctx, id)
+	panic("")
 }
 
 func (b *BookService) GetBooksByAuthor(ctx context.Context, id int) (*[]domain.Book, error) {
@@ -27,13 +28,13 @@ func (b *BookService) GetBooksByAuthor(ctx context.Context, id int) (*[]domain.B
 }
 
 func (b *BookService) AddBook(ctx context.Context, book *domain.Book) (string, error) {
-	return b.repository.AddBook(ctx, book)
+	panic("")
 }
 
 func (b *BookService) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
-	return b.repository.UpdateBook(ctx, id, book)
+	panic("")
 }
 
 func (b *BookService) DeleteBook(ctx context.Context, id string) (string, error) {
-	return b.repository.DeleteBook(ctx, id)
+	panic("")
 }

@@ -79,7 +79,7 @@ func NewApp() *App {
 
 	return &App{
 		userService:   userService.NewUserService(userRepository),
-		bookService:   bookService.NewBookService(bookRepository),
+		bookService:   bookService.NewBookService(bookRepository, authorRepository),
 		authorService: authorService.NewAuthorService(authorRepository),
 	}
 }

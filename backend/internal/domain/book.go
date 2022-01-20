@@ -22,7 +22,7 @@ type BookService interface {
 type BookRepository interface {
 	GetBooks(ctx context.Context) (*[]Book, error)
 	GetBookById(ctx context.Context, id string) (*Book, error)
-	GetBooksByAuthorId(ctx context.Context, id int) (*[]Book, error)
+	GetBooksByAuthor(ctx context.Context, id int) (*[]Book, error)
 	AddBook(ctx context.Context, book *Book) (string, error)
 	UpdateBook(ctx context.Context, id string, book *Book) (string, error)
 	DeleteBook(ctx context.Context, id string) (string, error)
