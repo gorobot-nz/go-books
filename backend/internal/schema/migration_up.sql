@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS authors
 
 CREATE TABLE IF NOT EXISTS books_authors
 (
-    id        SERIAL                                           NOT NULL UNIQUE,
-    book_id   SERIAL REFERENCES books (id) ON DELETE CASCADE   NOT NULL,
-    author_id SERIAL REFERENCES authors (id) ON DELETE CASCADE NOT NULL
+    id        SERIAL                                            NOT NULL UNIQUE,
+    book_id   INTEGER REFERENCES books (id) ON DELETE CASCADE   NOT NULL,
+    author_id INTEGER REFERENCES authors (id) ON DELETE CASCADE NOT NULL
 );
