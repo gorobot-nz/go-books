@@ -51,9 +51,9 @@ func (b *BookService) AddBook(ctx context.Context, book *domain.Book, authors *[
 }
 
 func (b *BookService) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
-	panic("")
+	return b.bookRepository.UpdateBook(ctx, id, book)
 }
 
 func (b *BookService) DeleteBook(ctx context.Context, id string) (string, error) {
-	panic("")
+	return b.bookRepository.DeleteBook(ctx, id)
 }
