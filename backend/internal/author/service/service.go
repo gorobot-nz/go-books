@@ -37,7 +37,17 @@ func (s *AuthorService) GetAuthors(ctx context.Context) (*[]domain.AuthorWithBoo
 }
 
 func (s *AuthorService) GetAuthorById(ctx context.Context, id string) (*domain.AuthorWithBooks, error) {
-	return nil, nil
+	author, err := s.repository.GetAuthorById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	authorWithBooks, err := s.repository.GetAuthorWithBook(ctx, author)
+	if err != nil {
+		return nil, err
+	}
+
+	return authorWithBooks, nil
 }
 
 func (s *AuthorService) DeleteAuthor(ctx context.Context, id string) (string, error) {
