@@ -17,7 +17,7 @@ type BookWithAuthors struct {
 
 type BookService interface {
 	GetBooks(ctx context.Context) (*[]BookWithAuthors, error)
-	GetBookById(ctx context.Context, id string) (*Book, error)
+	GetBookById(ctx context.Context, id string) (*BookWithAuthors, error)
 	AddBook(ctx context.Context, book *Book, authors *[]uint) (string, error)
 	UpdateBook(ctx context.Context, id string, book *Book) (string, error)
 	DeleteBook(ctx context.Context, id string) (string, error)

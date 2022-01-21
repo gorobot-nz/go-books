@@ -1,19 +1,6 @@
 package http
 
-import (
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
-
-	"github.com/gorobot-nz/go-books/internal/domain"
-	"github.com/gorobot-nz/go-books/internal/user/service"
-
-	"bytes"
-	"encoding/json"
-	"net/http"
-	"net/http/httptest"
-	"testing"
-)
-
+/*
 func TestUserHandler_SignUp(t *testing.T) {
 	signUpBody := domain.User{
 		Id:       1,
@@ -70,3 +57,4 @@ func TestUserHandler_SignIn(t *testing.T) {
 	assert.Equal(t, string(expected), string(actual))
 	assert.Equal(t, 202, w.Code)
 }
+*/
