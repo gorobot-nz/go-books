@@ -8,14 +8,14 @@ CREATE TABLE IF NOT EXISTS roles
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id         SERIAL PRIMARY KEY                             NOT NULL UNIQUE,
-    username   TEXT                                           NOT NULL UNIQUE,
-    password   TEXT                                           NOT NULL,
-    name       TEXT                                           NOT NULL,
-    surname    TEXT                                           NOT NULL,
-    role_id    SERIAL REFERENCES roles (id) ON DELETE CASCADE NOT NULL DEFAULT 1,
-    created_at TIMESTAMPTZ                                    NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ                                    NOT NULL DEFAULT NOW()
+    id         SERIAL PRIMARY KEY                              NOT NULL UNIQUE,
+    username   TEXT                                            NOT NULL UNIQUE,
+    password   TEXT                                            NOT NULL,
+    name       TEXT                                            NOT NULL,
+    surname    TEXT                                            NOT NULL,
+    role_id    INTEGER REFERENCES roles (id) ON DELETE CASCADE NOT NULL DEFAULT 1,
+    created_at TIMESTAMPTZ                                     NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ                                     NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS books
