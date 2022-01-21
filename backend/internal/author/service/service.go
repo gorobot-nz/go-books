@@ -17,12 +17,27 @@ func (s *AuthorService) AddAuthor(ctx context.Context, author *domain.Author) (s
 	return s.repository.AddAuthor(ctx, author)
 }
 
-func (s *AuthorService) GetAuthors(ctx context.Context) (*[]domain.Author, error) {
-	return s.repository.GetAuthors(ctx)
+func (s *AuthorService) GetAuthors(ctx context.Context) (*[]domain.AuthorWithBooks, error) {
+	var authorsWithBooks []domain.AuthorWithBooks
+
+	authors, err := s.repository.GetAuthors(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, value := range *authors {
+		authorWithBook, err := s.repository.GetAuthorWithBook(ctx, &value)
+		if err != nil {
+			return nil, err
+		}
+
+		authorsWithBooks = append(authorsWithBooks, *authorWithBook)
+	}
+	return &authorsWithBooks, nil
 }
 
-func (s *AuthorService) GetAuthorById(ctx context.Context, id string) (*domain.Author, error) {
-	return s.repository.GetAuthorById(ctx, id)
+func (s *AuthorService) GetAuthorById(ctx context.Context, id string) (*domain.AuthorWithBooks, error) {
+	return nil, nil
 }
 
 func (s *AuthorService) DeleteAuthor(ctx context.Context, id string) (string, error) {

@@ -19,7 +19,7 @@ func (b *BookService) GetBooks(ctx context.Context) (*[]domain.BookWithAuthors, 
 
 	books, err := b.bookRepository.GetBooks(ctx)
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	for _, value := range *books {

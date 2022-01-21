@@ -59,6 +59,10 @@ func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domai
 	return &author, nil
 }
 
+func (r *AuthorRepository) GetAuthorWithBook(ctx context.Context, author *domain.Author) (*domain.AuthorWithBooks, error) {
+	panic("")
+}
+
 func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string, error) {
 	authorId, err := strconv.Atoi(id)
 	if err != nil {
