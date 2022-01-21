@@ -71,14 +71,15 @@ func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 
 	authorId := c.Param("id")
 
-	author, err := h.service.GetAuthorById(c, authorId)
+	result, err := h.service.GetAuthorById(c, authorId)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"author": author,
+		"author": result.Author,
+		"books":  result.Books,
 	})
 }
 

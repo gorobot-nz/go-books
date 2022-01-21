@@ -11,8 +11,8 @@ type Book struct {
 }
 
 type BookWithAuthors struct {
-	Book    Book
-	Authors []Author
+	Book    Book     `json:"book"`
+	Authors []Author `json:"authors"`
 }
 
 type BookService interface {

@@ -48,14 +48,15 @@ func (h *BookHandler) GetBookById(c *gin.Context) {
 
 	bookId := c.Param("id")
 
-	book, err := h.service.GetBookById(c, bookId)
+	result, err := h.service.GetBookById(c, bookId)
 	if err != nil {
 		utils.ErrorMessage(c, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"book": book,
+		"book":    result.Book,
+		"authors": result.Authors,
 	})
 }
 

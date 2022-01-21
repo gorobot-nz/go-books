@@ -27,7 +27,7 @@ func NewBookRepository(db *sqlx.DB) *BookRepository {
 func (r *BookRepository) GetBooks(ctx context.Context) (*[]domain.Book, error) {
 	var books []domain.Book
 
-	query := fmt.Sprintf("SELECT id, user_id, title, description, price, publication_date FROM %s", booksTable)
+	query := fmt.Sprintf("SELECT id, title, description, price, publication_date FROM %s", booksTable)
 
 	err := r.db.Select(&books, query)
 	if err != nil {
@@ -43,13 +43,13 @@ func (r *BookRepository) GetBookById(ctx context.Context, id string) (*domain.Bo
 		return nil, err
 	}
 
-	query := fmt.Sprintf("SELECT id, user_id, title, description, price, publication_date FROM %s WHERE id=$1", booksTable)
+	query := fmt.Sprintf("SELECT id, title, description, price, publication_date FROM %s WHERE id=$1", booksTable)
 
 	err = r.db.Get(&book, query, bookId)
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return &book, nil
 }
 
 func (r *BookRepository) GetBookWithAuthors(ctx context.Context, book *domain.Book) (*domain.BookWithAuthors, error) {
@@ -87,7 +87,7 @@ func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book, authors
 		return "0", err
 	}
 
-	connectBookAndAuthorsQuery := fmt.Sprintf("INSERT INTO %s (book_id, auhtor_id) values ($1, $2)", booksAuthorsTable)
+	connectBookAndAuthorsQuery := fmt.Sprintf("INSERT INTO %s (book_id, author_id) values ($1, $2)", booksAuthorsTable)
 	for _, value := range *authors {
 		_, err := tx.Exec(connectBookAndAuthorsQuery, id, value)
 		if err != nil {
@@ -96,7 +96,7 @@ func (r *BookRepository) AddBook(ctx context.Context, book *domain.Book, authors
 		}
 	}
 
-	return strconv.Itoa(id), nil
+	return strconv.Itoa(id), tx.Commit()
 }
 
 func (r *BookRepository) UpdateBook(ctx context.Context, id string, book *domain.Book) (string, error) {
