@@ -6,12 +6,11 @@ import (
 )
 
 type BookService struct {
-	bookRepository   domain.BookRepository
-	authorRepository domain.AuthorRepository
+	bookRepository domain.BookRepository
 }
 
-func NewBookService(bookRepository domain.BookRepository, authorRepository domain.AuthorRepository) *BookService {
-	return &BookService{bookRepository: bookRepository, authorRepository: authorRepository}
+func NewBookService(bookRepository domain.BookRepository) *BookService {
+	return &BookService{bookRepository: bookRepository}
 }
 
 func (b *BookService) GetBooks(ctx context.Context) (*[]domain.BookWithAuthors, error) {
