@@ -69,8 +69,8 @@ func (r *AuthorRepository) GetAuthorWithBook(ctx context.Context, author *domain
 	var authorWithBooks domain.AuthorWithBooks
 	authorWithBooks.Author = *author
 
-	query := fmt.Sprintf(`SELECT b.id, b.title, b.description, b.price, b.date FROM %s b INNER JOIN %s ba on b.id=ba.book_id
-																									INNER JOIN %s a on ba.author_id = a.id WHERE a.id=$1`, booksTable, booksAuthorsTable, author)
+	query := fmt.Sprintf(`SELECT b.id, b.title, b.description, b.price, b.publication_date FROM %s b INNER JOIN %s ba on b.id=ba.book_id
+																									INNER JOIN %s a on ba.author_id = a.id WHERE a.id=$1`, booksTable, booksAuthorsTable, authorsTable)
 	err := r.db.Select(&books, query, author.Id)
 	if err != nil {
 		return nil, err
