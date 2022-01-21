@@ -8,7 +8,11 @@ import (
 	"strconv"
 )
 
-const authorsTable = "authors"
+const (
+	authorsTable      = "authors"
+	booksTable        = "books"
+	booksAuthorsTable = "books_authors"
+)
 
 type AuthorRepository struct {
 	db *sqlx.DB
@@ -60,7 +64,19 @@ func (r *AuthorRepository) GetAuthorById(ctx context.Context, id string) (*domai
 }
 
 func (r *AuthorRepository) GetAuthorWithBook(ctx context.Context, author *domain.Author) (*domain.AuthorWithBooks, error) {
-	panic("")
+	var books []domain.Book
+
+	var authorWithBooks domain.AuthorWithBooks
+	authorWithBooks.Author = *author
+
+	query := fmt.Sprintf(`SELECT b.id, b.title, b.description, b.price, b.date FROM %s b INNER JOIN %s ba on b.id=ba.book_id
+																									INNER JOIN %s a on ba.author_id = a.id WHERE a.id=$1`, booksTable, booksAuthorsTable, author)
+	err := r.db.Select(&books, query, author.Id)
+	if err != nil {
+		return nil, err
+	}
+	authorWithBooks.Books = books
+	return &authorWithBooks, nil
 }
 
 func (r *AuthorRepository) DeleteAuthor(ctx context.Context, id string) (string, error) {
