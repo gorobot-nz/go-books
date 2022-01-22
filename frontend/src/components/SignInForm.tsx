@@ -1,5 +1,7 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Button, Checkbox, Form, Input} from "antd";
+import {useDispatch} from "react-redux";
+import {AuthActionCreators} from "../store/reducers/auth/action-creators";
 
 const SignInForm: FC = () => {
     const onFinish = (values: any) => {
@@ -10,12 +12,23 @@ const SignInForm: FC = () => {
         console.log('Failed:', errorInfo);
     };
 
+
+    const dispatch = useDispatch()
+
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    const submit = () => {
+        dispatch(AuthActionCreators.signIn(username, password))
+    }
+
+
     return (
         <Form
             name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
+            labelCol={{span: 8}}
+            wrapperCol={{span: 16}}
+            initialValues={{remember: true}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -23,25 +36,31 @@ const SignInForm: FC = () => {
             <Form.Item
                 label="Username"
                 name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[{required: true, message: 'Please input your username!'}]}
             >
-                <Input />
+                <Input
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                />
             </Form.Item>
 
             <Form.Item
                 label="Password"
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[{required: true, message: 'Please input your password!'}]}
             >
-                <Input.Password />
+                <Input.Password
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                />
             </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+            <Form.Item name="remember" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}>
                 <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Button type="primary" htmlType="submit" onClick={() => submit()}>
                     Submit
                 </Button>
             </Form.Item>
