@@ -1,6 +1,7 @@
 import {IUser} from "../../../models/IUser";
-import {AuthActionEnum, SetIsAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction} from "./types";
+import {AuthActionEnum, SetErrorAction, SetIsAuthAction, SetIsLoadingAction, SetUserAction} from "./types";
 import {AppDispatch} from "../../index";
+import axios from "axios";
 
 
 export const AuthActionCreators = {
@@ -20,14 +21,41 @@ export const AuthActionCreators = {
         type: AuthActionEnum.SET_ERROR,
         payload: error
     }),
-    signIn: (username: string, password: string) => async (dispatch: AppDispatch) => {
+    signUp: (username: string, password: string, name: string, surname: string) => async (dispatch: AppDispatch) => {
         try {
-            dispatch(AuthActionCreators.setIsLoading(true));
-
-            dispatch(AuthActionCreators.setIsAuth(true));
+            dispatch(AuthActionCreators.setIsLoading(true))
+            const response = await axios.post("http://localhost:8000/auth/signup", {
+                username: username,
+                password: password,
+                name: name,
+                surname: surname
+            })
+            console.log(response)
+            dispatch(AuthActionCreators.setIsLoading(false))
         } catch (e) {
             dispatch(AuthActionCreators.setError("Sign in error"));
             dispatch(AuthActionCreators.setIsLoading(false));
         }
+    },
+    signIn: (username: string, password: string) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true))
+            const response = await axios.post("http://localhost:8000/auth/signin", {
+                username: username,
+                password: password,
+            })
+            console.log(response)
+            dispatch(AuthActionCreators.setIsAuth(true))
+            dispatch(AuthActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(AuthActionCreators.setError("Sign in error"));
+            dispatch(AuthActionCreators.setIsLoading(false));
+        }
+    },
+    logout: () => async (dispatch: AppDispatch) => {
+        dispatch(AuthActionCreators.setIsLoading(true))
+        dispatch(AuthActionCreators.setIsAuth(false))
+        dispatch(AuthActionCreators.setUser({} as IUser))
+        dispatch(AuthActionCreators.setIsLoading(false))
     }
 }
