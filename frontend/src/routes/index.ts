@@ -1,5 +1,4 @@
 export enum PublicRoutes {
-    START = "/",
     SIGNUP = "/signup",
     SIGNIN = "/signin",
 }

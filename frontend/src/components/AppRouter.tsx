@@ -1,7 +1,6 @@
 import React from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {PrivateRoutes, PublicRoutes} from "../routes";
-import StartPage from "../pages/StartPage";
 import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import Books from "../pages/Books";
@@ -23,10 +22,9 @@ const AppRouter = () => {
             </Routes>
             :
             <Routes>
-                <Route path={PublicRoutes.START} element={<StartPage/>}/>
                 <Route path={PublicRoutes.SIGNUP} element={<SignUp/>}/>
                 <Route path={PublicRoutes.SIGNIN} element={<SignIn/>}/>
-                <Route path="*" element={<Navigate to={PublicRoutes.START}/>}/>
+                <Route path="*" element={<Navigate to={PublicRoutes.SIGNIN}/>}/>
             </Routes>
     );
 };
