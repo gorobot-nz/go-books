@@ -1,11 +1,12 @@
 import React from 'react';
 import {Layout, Row} from "antd";
+import SignInForm from "../components/SignInForm";
 
 const SignIn = () => {
     return (
         <Layout>
             <Row justify="center" align="middle" className="h100">
-                Sign In
+                <SignInForm/>
             </Row>
         </Layout>
     );
