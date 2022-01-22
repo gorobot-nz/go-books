@@ -8,11 +8,12 @@ import Books from "../pages/Books";
 import Authors from "../pages/Authors";
 import DetailBook from "../pages/DetailBook";
 import DetailAuthor from "../pages/DetailAuthor";
+import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const AppRouter = () => {
-    const auth = true;
+    const {isAuth} = useTypedSelector(state => state.auth)
     return (
-        auth ?
+        isAuth ?
             <Routes>
                 <Route path={PrivateRoutes.BOOKS} element={<Books/>}/>
                 <Route path={PrivateRoutes.AUTHORS} element={<Authors/>}/>
