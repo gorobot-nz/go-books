@@ -1,7 +1,9 @@
 import {IUser} from "../../../models/IUser";
 import {AuthActionEnum, SetErrorAction, SetIsAuthAction, SetIsLoadingAction, SetUserAction} from "./types";
 import {AppDispatch} from "../../index";
-import axios from "axios";
+import {$auth} from "../../../http"
+import {SignUpResponse} from "../../../http/response/SignUpResponse";
+import {SignInResponse} from "../../../http/response/SignInResponse";
 
 
 export const AuthActionCreators = {
@@ -24,7 +26,7 @@ export const AuthActionCreators = {
     signUp: (username: string, password: string, name: string, surname: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true))
-            const response = await axios.post("http://localhost:8000/auth/signup", {
+            const response = await $auth.post<SignUpResponse>("/signup", {
                 username: username,
                 password: password,
                 name: name,
@@ -40,10 +42,11 @@ export const AuthActionCreators = {
     signIn: (username: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true))
-            const response = await axios.post("http://localhost:8000/auth/signin", {
+            const response = await $auth.post<SignInResponse>("/signin", {
                 username: username,
                 password: password,
             })
+            localStorage.setItem('token', response.data.token)
             console.log(response)
             dispatch(AuthActionCreators.setIsAuth(true))
             dispatch(AuthActionCreators.setIsLoading(false))
@@ -53,9 +56,14 @@ export const AuthActionCreators = {
         }
     },
     logout: () => async (dispatch: AppDispatch) => {
-        dispatch(AuthActionCreators.setIsLoading(true))
-        dispatch(AuthActionCreators.setIsAuth(false))
-        dispatch(AuthActionCreators.setUser({} as IUser))
-        dispatch(AuthActionCreators.setIsLoading(false))
+        try {
+            dispatch(AuthActionCreators.setIsLoading(true))
+            dispatch(AuthActionCreators.setIsAuth(false))
+            localStorage.removeItem('token')
+            dispatch(AuthActionCreators.setUser({} as IUser))
+            dispatch(AuthActionCreators.setIsLoading(false))
+        } catch (e) {
+            console.log('some error')
+        }
     }
 }
