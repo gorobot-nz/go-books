@@ -1,8 +1,8 @@
-import {IAuthor} from "../../../models/IAuthor";
+import {IAuthorWithBooks} from "../../../models/IAuthorWithBooks";
 
 export interface AuthorState {
-    authors: IAuthor[];
-    selectedAuthor: IAuthor;
+    authors: IAuthorWithBooks[];
+    selectedAuthor: IAuthorWithBooks;
     isLoading: boolean;
     error: string;
 }
@@ -17,12 +17,12 @@ export enum AuthorActionsEnum {
 
 export interface SetAuthorsAction {
     type: AuthorActionsEnum.SET_AUTHORS;
-    payload: IAuthor[];
+    payload: IAuthorWithBooks[];
 }
 
 export interface SetSelectedAuthorAction {
     type: AuthorActionsEnum.SET_SELECTED_AUTHOR;
-    payload: IAuthor;
+    payload: IAuthorWithBooks;
 }
 
 export interface SetIsLoadingAction {

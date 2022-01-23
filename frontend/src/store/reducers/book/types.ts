@@ -1,8 +1,8 @@
-import {IBook} from "../../../models/IBook";
+import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 export interface BookState {
-    books: IBook[];
-    selectedBook: IBook;
+    books: IBookWithAuthors[];
+    selectedBook: IBookWithAuthors;
     isLoading: boolean;
     error: string;
 }
@@ -16,12 +16,12 @@ export enum BookActionsEnum {
 
 export interface SetBooksAction {
     type: BookActionsEnum.SET_BOOKS;
-    payload: IBook[];
+    payload: IBookWithAuthors[];
 }
 
 export interface SetSelectedBookAction {
     type: BookActionsEnum.SET_SELECTED_BOOK;
-    payload: IBook;
+    payload: IBookWithAuthors;
 }
 
 export interface SetIsLoadingAction {

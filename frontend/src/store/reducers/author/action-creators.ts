@@ -1,4 +1,3 @@
-import {IAuthor} from "../../../models/IAuthor";
 import {
     AuthorActionsEnum,
     SetAuthorsAction,
@@ -6,13 +5,14 @@ import {
     SetIsLoadingAction,
     SetSelectedAuthorAction
 } from "./types";
+import {IAuthorWithBooks} from "../../../models/IAuthorWithBooks";
 
 export const AuthorActionCreators = {
-    setAuthors: (authors: IAuthor[]): SetAuthorsAction => ({
+    setAuthors: (authors: IAuthorWithBooks[]): SetAuthorsAction => ({
         type: AuthorActionsEnum.SET_AUTHORS,
         payload: authors
     }),
-    setSelectedAuthor: (author: IAuthor): SetSelectedAuthorAction => ({
+    setSelectedAuthor: (author: IAuthorWithBooks): SetSelectedAuthorAction => ({
         type: AuthorActionsEnum.SET_SELECTED_AUTHOR,
         payload: author
     }),
