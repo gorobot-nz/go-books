@@ -2,7 +2,6 @@ import {IBook} from "../../../models/IBook";
 import {BookActionsEnum, SetBooksAction, SetErrorAction, SetIsLoadingAction, SetSelectedBookAction} from "./types";
 import {AppDispatch} from "../../index";
 import {$api} from "../../../http";
-import {GetBooksResponse} from "../../../http/response/GetBooksResponse";
 
 export const BookActionCreators = {
     setBooks: (books: IBook[]): SetBooksAction => ({
@@ -26,11 +25,12 @@ export const BookActionCreators = {
             dispatch(BookActionCreators.setIsLoading(true))
             dispatch(BookActionCreators.setSelectedBook({} as IBook))
 
-            const {data} = await $api.get<GetBooksResponse>('/books')
-            console.log(data.books)
+            const {data} = await $api.get('/book')
+            console.log(data)
 
             dispatch(BookActionCreators.setIsLoading(false))
         } catch (e) {
+            console.log(e)
             dispatch(BookActionCreators.setError('error'))
             dispatch(BookActionCreators.setIsLoading(false))
         }
