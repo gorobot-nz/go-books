@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 export const AUTH_URL = 'http://localhost:8000/auth'
 export const API_URL = 'http://localhost:8000/api'
@@ -14,10 +14,12 @@ const $api = axios.create({
     baseURL: API_URL
 })
 
-$api.interceptors.request.use(function (config) {
+const apiInterceptor = (config: AxiosRequestConfig) => {
     // @ts-ignore
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-})
+}
+
+$api.interceptors.request.use(apiInterceptor)
 
 export {
     $auth,

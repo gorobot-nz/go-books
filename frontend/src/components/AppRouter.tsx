@@ -18,13 +18,15 @@ const AppRouter = () => {
                 <Route path={PrivateRoutes.AUTHORS} element={<Authors/>}/>
                 <Route path={PrivateRoutes.DETAILBOOK} element={<DetailBook/>}/>
                 <Route path={PrivateRoutes.DETAILAUTHOR} element={<DetailAuthor/>}/>
-                <Route path="*" element={<Navigate to={PrivateRoutes.BOOKS}/>}/>
+                <Route
+                    path="*"
+                    element={<Navigate to={PrivateRoutes.BOOKS}/>}
+                />
             </Routes>
             :
             <Routes>
                 <Route path={PublicRoutes.SIGNUP} element={<SignUp/>}/>
                 <Route path={PublicRoutes.SIGNIN} element={<SignIn/>}/>
-                <Route path="*" element={<Navigate to={PublicRoutes.SIGNIN}/>}/>
             </Routes>
     );
 };

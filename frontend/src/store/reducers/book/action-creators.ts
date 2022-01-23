@@ -1,5 +1,8 @@
 import {IBook} from "../../../models/IBook";
 import {BookActionsEnum, SetBooksAction, SetErrorAction, SetIsLoadingAction, SetSelectedBookAction} from "./types";
+import {AppDispatch} from "../../index";
+import {$api} from "../../../http";
+import {GetBooksResponse} from "../../../http/response/GetBooksResponse";
 
 export const BookActionCreators = {
     setBooks: (books: IBook[]): SetBooksAction => ({
@@ -18,4 +21,18 @@ export const BookActionCreators = {
         type: BookActionsEnum.SET_IS_LOADING,
         payload: isLoading
     }),
+    getBooks: () => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(BookActionCreators.setIsLoading(true))
+            dispatch(BookActionCreators.setSelectedBook({} as IBook))
+
+            const {data} = await $api.get<GetBooksResponse>('/books')
+            console.log(data.books)
+
+            dispatch(BookActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(BookActionCreators.setError('error'))
+            dispatch(BookActionCreators.setIsLoading(false))
+        }
+    }
 }

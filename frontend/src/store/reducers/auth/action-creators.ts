@@ -5,6 +5,7 @@ import {$auth} from "../../../http"
 import {SignUpResponse} from "../../../http/response/SignUpResponse";
 import {SignInResponse} from "../../../http/response/SignInResponse";
 import jwt_decode from "jwt-decode"
+import {Token} from "../../../models/Token";
 
 
 export const AuthActionCreators = {
@@ -48,12 +49,13 @@ export const AuthActionCreators = {
                 password: password,
             })
             localStorage.setItem('token', data.token)
-            const user: IUser = jwt_decode(data.token)
-            console.log(user.id)
-            console.log(user.roleId)
-            console.log(user.name)
-            console.log(user.surname)
-            dispatch(AuthActionCreators.setUser(user))
+            const decodedData = jwt_decode<Token>(data.token)
+            dispatch(AuthActionCreators.setUser({
+                id: decodedData.user_id,
+                name: decodedData.user_name,
+                surname: decodedData.user_surname,
+                roleId: decodedData.user_role_id
+            } as IUser))
             dispatch(AuthActionCreators.setIsAuth(true))
             dispatch(AuthActionCreators.setIsLoading(false))
         } catch (e) {
