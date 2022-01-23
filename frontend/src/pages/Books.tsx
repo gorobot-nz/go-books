@@ -1,10 +1,11 @@
 import React from 'react';
+import {Layout} from "antd";
 
 const Books = () => {
     return (
-        <div>
-            BOOKS
-        </div>
+        <Layout>
+            Books
+        </Layout>
     );
 };
 

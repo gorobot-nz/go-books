@@ -1,10 +1,11 @@
 import React from 'react';
+import {Layout} from "antd";
 
 const Authors = () => {
     return (
-        <div>
-            AUTHORS
-        </div>
+        <Layout>
+            Authors
+        </Layout>
     );
 };
 
