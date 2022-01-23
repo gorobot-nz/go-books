@@ -2,7 +2,7 @@ import {IBook} from "../../../models/IBook";
 
 export interface BookState {
     books: IBook[];
-    selectedBook: IBook[];
+    selectedBook: IBook;
     isLoading: boolean;
     error: string;
 }
@@ -14,28 +14,28 @@ export enum BookActionsEnum {
     SET_ERROR = "SET_ERROR",
 }
 
-export interface SetBooks {
+export interface SetBooksAction {
     type: BookActionsEnum.SET_BOOKS;
     payload: IBook[];
 }
 
-export interface SetSelectedBook {
+export interface SetSelectedBookAction {
     type: BookActionsEnum.SET_SELECTED_BOOK;
     payload: IBook;
 }
 
-export interface SetIsLoading {
+export interface SetIsLoadingAction {
     type: BookActionsEnum.SET_IS_LOADING;
     payload: boolean;
 }
 
-export interface SetError {
+export interface SetErrorAction {
     type: BookActionsEnum.SET_ERROR;
     payload: string;
 }
 
 export type BookAction =
-    SetBooks |
-    SetSelectedBook |
-    SetError |
-    SetIsLoading
+    SetBooksAction |
+    SetSelectedBookAction |
+    SetErrorAction |
+    SetIsLoadingAction
