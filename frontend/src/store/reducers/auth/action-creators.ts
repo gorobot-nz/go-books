@@ -4,6 +4,7 @@ import {AppDispatch} from "../../index";
 import {$auth} from "../../../http"
 import {SignUpResponse} from "../../../http/response/SignUpResponse";
 import {SignInResponse} from "../../../http/response/SignInResponse";
+import jwt_decode from "jwt-decode"
 
 
 export const AuthActionCreators = {
@@ -42,12 +43,17 @@ export const AuthActionCreators = {
     signIn: (username: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true))
-            const response = await $auth.post<SignInResponse>("/signin", {
+            const {data} = await $auth.post<SignInResponse>("/signin", {
                 username: username,
                 password: password,
             })
-            localStorage.setItem('token', response.data.token)
-            console.log(response)
+            localStorage.setItem('token', data.token)
+            const user: IUser = jwt_decode(data.token)
+            console.log(user.id)
+            console.log(user.roleId)
+            console.log(user.name)
+            console.log(user.surname)
+            dispatch(AuthActionCreators.setUser(user))
             dispatch(AuthActionCreators.setIsAuth(true))
             dispatch(AuthActionCreators.setIsLoading(false))
         } catch (e) {
