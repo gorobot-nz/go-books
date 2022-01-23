@@ -1,10 +1,18 @@
 import React from 'react';
+import {Card} from "antd";
+import {IBookWithAuthors} from "../models/IBookWithAuthors";
+import AuthorCard from "./AuthorCard";
 
-const BookCard = () => {
+const BookCard = (book: IBookWithAuthors) => {
     return (
-        <div>
-            Book
-        </div>
+        <Card title={book.title} style={{width: 300}}>
+            <p>{book.description}</p>
+            <p>{book.price} $</p>
+            <p>{book.date}</p>
+            {book.authors.map(author =>
+                <AuthorCard id={author.id} name={author.name} surname={author.surname}/>
+            )}
+        </Card>
     );
 };
 

@@ -1,10 +1,12 @@
 import React from 'react';
+import {IAuthor} from "../models/IAuthor";
+import {Card, Layout, Row} from "antd";
 
-const AuthorCard = () => {
+const AuthorCard = (author: IAuthor) => {
     return (
-        <div>
-            Author
-        </div>
+        <Layout>
+            <Row>{author.surname + " " +author.name}</Row>
+        </Layout>
     );
 };
 

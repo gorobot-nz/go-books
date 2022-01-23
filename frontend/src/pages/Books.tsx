@@ -1,19 +1,18 @@
 import React from 'react';
-import {Layout, Row} from "antd";
+import {Col, Layout, Row} from "antd";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import BookCard from "../components/BookCard";
+import BooksList from "../components/BooksList";
 
 
 const Books = () => {
 
-    const {books} = useTypedSelector(state => state.book)
-
-    console.log(books)
 
     return (
         <Layout>
-            <Row justify="center" align="middle" className="h100">
-                BOOKS
-            </Row>
+            <Col>
+                <BooksList/>
+            </Col>
         </Layout>
     );
 };

@@ -1,5 +1,4 @@
 import {AuthorAction, AuthorActionsEnum, AuthorState} from "./types";
-import {IAuthor} from "../../../models/IAuthor";
 import {IAuthorWithBooks} from "../../../models/IAuthorWithBooks";
 
 const initialState: AuthorState = {

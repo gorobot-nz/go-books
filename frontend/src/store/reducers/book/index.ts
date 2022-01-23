@@ -1,5 +1,4 @@
 import {BookAction, BookActionsEnum, BookState} from "./types";
-import {IBook} from "../../../models/IBook";
 import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 const initialState: BookState = {
@@ -54,7 +53,63 @@ const initialState: BookState = {
                     surname: "Fudzimoto",
                 }
             ]
-        }
+        },
+        {
+            id: 4,
+            title: "Monday starts at saturday",
+            description: "Story about NIICHAVO",
+            price: 150,
+            date: '1960',
+            authors: [
+                {
+                    id: 1,
+                    name: "Arkadiy",
+                    surname: "Strugatskii",
+                },
+                {
+                    id: 2,
+                    name: "Valery",
+                    surname: "Strugatskii",
+                }
+            ]
+        },
+        {
+            id: 5,
+            title: "Monday starts at saturday",
+            description: "Story about NIICHAVO",
+            price: 150,
+            date: '1960',
+            authors: [
+                {
+                    id: 1,
+                    name: "Arkadiy",
+                    surname: "Strugatskii",
+                },
+                {
+                    id: 2,
+                    name: "Valery",
+                    surname: "Strugatskii",
+                }
+            ]
+        },{
+            id: 6,
+            title: "Monday starts at saturday",
+            description: "Story about NIICHAVO",
+            price: 150,
+            date: '1960',
+            authors: [
+                {
+                    id: 1,
+                    name: "Arkadiy",
+                    surname: "Strugatskii",
+                },
+                {
+                    id: 2,
+                    name: "Valery",
+                    surname: "Strugatskii",
+                }
+            ]
+        },
     ] as IBookWithAuthors[],
     selectedBook: {} as IBookWithAuthors,
     error: '',
