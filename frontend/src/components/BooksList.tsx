@@ -10,14 +10,15 @@ const BooksList = () => {
     return (
         <Row justify="center">
             {books.map(book =>
-                <Col>
+                <Col key={book.id}>
                     <BookCard
+                        key={book.id}
                         id={book.id}
                         title={book.title}
                         description={book.description}
                         price={book.price} authors={book.authors}
                         date={book.date}
-                        key={book.id}/>
+                    />
                 </Col>
             )}
         </Row>

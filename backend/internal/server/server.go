@@ -87,12 +87,14 @@ func NewApp() *App {
 func (a *App) Run() error {
 	gin.SetMode(gin.ReleaseMode)
 
-	router := gin.Default()
+	router := gin.New()
 	api := router.Group("api")
 
-	api.Use(middleware.CheckToken())
 	router.Use(middleware.CORS())
 	router.Use(middleware.Logging())
+	api.Use(middleware.CORS())
+	api.Use(middleware.CheckToken())
+	api.Use(middleware.Logging())
 
 	authorHttp.RegisterEndpoints(api, a.authorService)
 	bookHttp.RegisterEndpoints(api, a.bookService)

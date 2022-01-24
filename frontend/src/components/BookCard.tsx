@@ -10,7 +10,7 @@ const BookCard = (book: IBookWithAuthors) => {
             <p>{book.price} $</p>
             <p>{book.date}</p>
             {book.authors.map(author =>
-                <AuthorCard id={author.id} name={author.name} surname={author.surname}/>
+                <AuthorCard key={author.id} id={author.id} name={author.name} surname={author.surname}/>
             )}
         </Card>
     );
