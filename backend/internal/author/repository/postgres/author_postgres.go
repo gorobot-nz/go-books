@@ -10,7 +10,7 @@ import (
 
 const (
 	authorsTable      = "authors"
-	booksTable        = "book"
+	booksTable        = "books"
 	booksAuthorsTable = "books_authors"
 )
 

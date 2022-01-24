@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	booksTable        = "book"
+	booksTable        = "books"
 	booksAuthorsTable = "books_authors"
 	authorsTable      = "authors"
 	dateLayout        = "2006"
