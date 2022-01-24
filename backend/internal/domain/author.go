@@ -10,7 +10,7 @@ type Author struct {
 
 type AuthorWithBooks struct {
 	Author Author `json:"author"`
-	Books  []Book `json:"books"`
+	Books  []Book `json:"book"`
 }
 
 type AuthorService interface {

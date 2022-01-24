@@ -1,5 +1,5 @@
-import {IBook} from "../../models/IBook";
+import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 
 export interface GetBooksResponse {
-    books: IBook[]
+    books: IBookWithAuthors[]
 }

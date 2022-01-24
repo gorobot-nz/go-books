@@ -1,7 +1,9 @@
-import auth from './auth'
-import book from './book'
+import authReducer from './auth'
+import authorReducer from "./author";
+import bookReducer from "./book"
 
 export default {
-    auth,
-    book
+    authReducer,
+    authorReducer,
+    bookReducer
 }

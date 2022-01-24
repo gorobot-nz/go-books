@@ -79,7 +79,7 @@ func (h *AuthorHandler) GetAuthorById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"author": result.Author,
-		"books":  result.Books,
+		"book":   result.Books,
 	})
 }
 

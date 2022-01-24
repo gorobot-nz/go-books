@@ -3,7 +3,7 @@ import React from 'react';
 const DetailBook = () => {
     return (
         <div>
-            BOOK
+
         </div>
     );
 };

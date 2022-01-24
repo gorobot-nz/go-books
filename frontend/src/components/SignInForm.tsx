@@ -1,7 +1,8 @@
 import React, {FC, useState} from 'react';
-import {Button, Checkbox, Form, Input, Card} from "antd";
-import {useDispatch} from "react-redux";
-import {AuthActionCreators} from "../store/reducers/auth/action-creators";
+import {Button, Card, Checkbox, Form, Input} from "antd";
+import {useActions} from "../hooks/useActions";
+import {useNavigate} from "react-router-dom";
+import {PrivateRoutes} from "../routes";
 
 const SignInForm: FC = () => {
     const onFinish = (values: any) => {
@@ -13,13 +14,15 @@ const SignInForm: FC = () => {
     };
 
 
-    const dispatch = useDispatch()
+    const {signIn} = useActions()
+    const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const submit = () => {
-        dispatch(AuthActionCreators.signIn(username, password))
+        signIn(username, password)
+        navigate(PrivateRoutes.BOOKS)
     }
 
 

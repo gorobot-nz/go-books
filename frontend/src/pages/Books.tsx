@@ -1,33 +1,23 @@
-import React from 'react';
-import {Button, Col, Layout} from "antd";
-import BooksList from "../components/BooksList";
+import React, {useEffect} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
-import {useDispatch} from "react-redux";
-import {BookActionCreators} from "../store/reducers/book/action-creators";
-
+import {useActions} from "../hooks/useActions";
 
 const Books = () => {
-    const {books} = useTypedSelector(state => state.book)
-    const {user, isAuth} = useTypedSelector(state => state.auth)
 
-    const dispatch = useDispatch()
+    const {books} = useTypedSelector(state => state.bookReducer)
 
-    const submit = () => {
-        dispatch(BookActionCreators.getBooks())
-        console.log(books)
-        console.log(user)
-        console.log(isAuth)
-    }
+    console.log(books)
+
+    const {getBooks} = useActions()
+
+    useEffect(() => {
+        getBooks()
+    }, [])
 
     return (
-        <Layout>
-            <Col>
-                <BooksList/>
-            </Col>
-            <Button onClick={() => submit()}>
-                Click
-            </Button>
-        </Layout>
+        <div>
+
+        </div>
     );
 };
 

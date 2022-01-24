@@ -1,27 +1,27 @@
-import {
-    AuthorActionsEnum,
-    SetAuthorsAction,
-    SetErrorAction,
-    SetIsLoadingAction,
-    SetSelectedAuthorAction
-} from "./types";
 import {IAuthorWithBooks} from "../../../models/IAuthorWithBooks";
+import {AuthorActionsEnum, SetAuthors, SetSelectedAuthor} from "./types";
+import {AppDispatch} from "../../index";
+import {$api} from "../../../http";
 
 export const AuthorActionCreators = {
-    setAuthors: (authors: IAuthorWithBooks[]): SetAuthorsAction => ({
+    setAuthors: (payload: IAuthorWithBooks[]): SetAuthors => ({
         type: AuthorActionsEnum.SET_AUTHORS,
-        payload: authors
+        payload
     }),
-    setSelectedAuthor: (author: IAuthorWithBooks): SetSelectedAuthorAction => ({
+    setSelectedAuthor: (payload: IAuthorWithBooks): SetSelectedAuthor => ({
         type: AuthorActionsEnum.SET_SELECTED_AUTHOR,
-        payload: author
+        payload
     }),
-    setError: (error: string): SetErrorAction => ({
-        type: AuthorActionsEnum.SET_ERROR,
-        payload: error
-    }),
-    setIsLoading: (isLoading: boolean): SetIsLoadingAction => ({
-        type: AuthorActionsEnum.SET_IS_LOADING,
-        payload: isLoading
-    }),
+    getAuthors: () => async (dispatch: AppDispatch) => {
+        try {
+            const response = await $api.get<IAuthorWithBooks[]>('/author', {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            dispatch(AuthorActionCreators.setAuthors(response.data))
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }

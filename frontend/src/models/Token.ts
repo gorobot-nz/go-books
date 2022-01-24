@@ -1,4 +1,4 @@
-export interface Token{
+export interface Token {
     exp: number
     iat: number
     user_id: number

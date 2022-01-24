@@ -54,7 +54,7 @@ func TestBookHandler_GetBooks(t *testing.T) {
 		c.Set("userId", testUser.Id)
 	})
 
-	books := []domain.Book{
+	book := []domain.Book{
 		{
 			Id:          1,
 			UserId:      testUser.Id,
@@ -74,14 +74,14 @@ func TestBookHandler_GetBooks(t *testing.T) {
 	}
 
 	expected, err := json.Marshal(gin.H{
-		"books": books,
+		"book": book,
 	})
 	assert.NoError(t, err)
 
 	s := new(service.BookServiceMock)
 	RegisterEndpoints(group, s)
 
-	s.On("GetBooks").Return(&books, nil)
+	s.On("GetBooks").Return(&book, nil)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/api/book", nil)

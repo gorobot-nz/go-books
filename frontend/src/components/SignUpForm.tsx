@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
-import {Button, Form, Input, Card} from "antd";
-import {useDispatch} from "react-redux";
-import {AuthActionCreators} from "../store/reducers/auth/action-creators";
+import {Button, Card, Form, Input} from "antd";
+import {useActions} from "../hooks/useActions";
 
 const SignUpForm: FC = () => {
     const onFinish = (values: any) => {
@@ -12,7 +11,7 @@ const SignUpForm: FC = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const dispatch = useDispatch()
+    const {signUp} = useActions()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -20,7 +19,7 @@ const SignUpForm: FC = () => {
     const [surname, setSurname] = useState('')
 
     const submit = () => {
-        dispatch(AuthActionCreators.signUp(username, password, name, surname))
+        signUp(username, password, name, surname)
     }
 
     return (
