@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
-import {Layout} from "antd";
+import {Card, Layout} from "antd";
 import BooksList from "../components/BooksList";
 
 const Books: FC = () => {

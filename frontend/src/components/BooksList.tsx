@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {IBookWithAuthors} from "../models/IBookWithAuthors";
-import {Row} from "antd";
-import BookCard from "./BookCard";
+import {Card, Row} from "antd";
 
 interface BooksListProps {
     books: IBookWithAuthors[]
@@ -11,7 +10,18 @@ const BooksList: FC<BooksListProps> = ({books}) => {
     return (
         <Row>
             {books.map(book =>
-                <BookCard key={book.id} book={book}/>
+                <Card key={book.book.id} title={book.book.title}>
+                    <p>{book.book.price}</p>
+                    <p>{book.book.date}</p>
+                    {
+                        book.authors.map(author =>
+                            <div key={author.id}>
+                                {author.name}
+                                {author.surname}
+                            </div>
+                        )
+                    }
+                </Card>
             )}
         </Row>
     );

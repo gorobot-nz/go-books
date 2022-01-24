@@ -2,6 +2,7 @@ import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 import {BookActionsEnum, SetBooks, SetSelectedBook} from "./types";
 import {AppDispatch} from "../../index";
 import {$api} from "../../../http";
+import {GetBooksResponse} from "../../../http/response/GetBooksResponse";
 
 export const BookActionCreators = {
     setBooks: (payload: IBookWithAuthors[]): SetBooks => ({
@@ -14,12 +15,12 @@ export const BookActionCreators = {
     }),
     getBooks: () => async (dispatch: AppDispatch) => {
         try {
-            const response = await $api.get<IBookWithAuthors[]>('/book', {
+            const {data} = await $api.get<GetBooksResponse>('/book', {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            dispatch(BookActionCreators.setBooks(response.data))
+            dispatch(BookActionCreators.setBooks(data.books))
         } catch (e) {
             console.log(e)
         }

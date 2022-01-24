@@ -7,8 +7,12 @@ interface BookCardProps {
 }
 
 const BookCard: FC<BookCardProps> = ({book}) => {
+    console.log("FROOOOOOOOOOOOOm card")
+    console.log(book)
     return (
-        <Card key={book.id} title={book.title}/>
+        <Card key={book.book.id} title={book.book.title}>
+            <p>{book.book.price}</p>
+        </Card>
     );
 };
 
