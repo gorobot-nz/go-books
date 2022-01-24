@@ -1,12 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
+import {Layout} from "antd";
+import BooksList from "../components/BooksList";
 
-const Books = () => {
-
+const Books: FC = () => {
     const {books} = useTypedSelector(state => state.bookReducer)
-
-    console.log(books)
 
     const {getBooks} = useActions()
 
@@ -15,9 +14,9 @@ const Books = () => {
     }, [])
 
     return (
-        <div>
-
-        </div>
+        <Layout>
+            <BooksList books={books}/>
+        </Layout>
     );
 };
 

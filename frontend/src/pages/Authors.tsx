@@ -7,7 +7,6 @@ const Authors = () => {
 
     const {authors} = useTypedSelector(state => state.authorReducer)
 
-    console.log(authors)
     const {getAuthors} = useActions()
 
     useEffect(() => {
