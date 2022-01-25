@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
-import {Card, Layout} from "antd";
+import {Col, Layout, Row} from "antd";
 import BooksList from "../components/BooksList";
 
 const Books: FC = () => {
@@ -15,7 +15,11 @@ const Books: FC = () => {
 
     return (
         <Layout>
-            <BooksList books={books}/>
+            <Row>
+                <Col md={24}>
+                    <BooksList books={books}/>
+                </Col>
+            </Row>
         </Layout>
     );
 };

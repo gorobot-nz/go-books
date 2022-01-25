@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {useNavigate} from "react-router-dom";
-import {Layout, Menu, Row} from "antd";
-import {PrivateRoutes, PublicRoutes} from "../routes";
+import {Button, Divider, Layout, Row, Space} from "antd";
+import {PrivateRoutes} from "../routes";
 import {useActions} from "../hooks/useActions";
 
 const NavBar: FC = () => {
@@ -11,39 +11,30 @@ const NavBar: FC = () => {
 
     return (
         <Layout.Header>
-            <Row justify="end">
-                <Menu theme="dark" selectable={true}>
-                    <Menu.Item
-                        onClick={() => navigate(PrivateRoutes.BOOKS)}
-                        key={1}
-                    >
+            <Row justify="center">
+                <Space>
+                    <Button onClick={() => navigate(PrivateRoutes.BOOKS)}>
                         Книги
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => navigate(PrivateRoutes.AUTHORS)}
-                        key={2}
-                    >
+                    </Button>
+                </Space>
+                <Divider type="vertical"/>
+                <Space>
+                    <Button onClick={() => navigate(PrivateRoutes.AUTHORS)}>
                         Авторы
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => navigate(PublicRoutes.SIGNUP)}
-                        key={3}
-                    >
-                        Sign Up
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => navigate(PublicRoutes.SIGNIN)}
-                        key={4}
-                    >
-                        Sign In
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={logout}
-                        key={5}
-                    >
-                        Exit
-                    </Menu.Item>
-                </Menu>
+                    </Button>
+                </Space>
+                <Divider type="vertical"/>
+                <Space>
+                    <Button onClick={() => navigate(PrivateRoutes.BOOKS)}>
+                        UserInfo
+                    </Button>
+                </Space>
+                <Divider type="vertical"/>
+                <Space>
+                    <Button onClick={() => navigate(PrivateRoutes.BOOKS)}>
+                        Logout
+                    </Button>
+                </Space>
             </Row>
         </Layout.Header>
     );
