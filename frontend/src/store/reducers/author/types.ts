@@ -3,6 +3,8 @@ import {IAuthorWithBooks} from "../../../models/IAuthorWithBooks";
 export interface AuthorState {
     authors: IAuthorWithBooks[];
     selectedAuthor: IAuthorWithBooks;
+    isLoading: boolean;
+    error: string;
 }
 
 export enum AuthorActionsEnum {

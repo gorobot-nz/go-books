@@ -1,16 +1,24 @@
 import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
-import {BookActionsEnum, SetBooks, SetSelectedBook} from "./types";
+import {BookActionsEnum, SetBooksAction, SetErrorAction, SetIsLoadingAction, SetSelectedBookAction} from "./types";
 import {AppDispatch} from "../../index";
 import {$api} from "../../../http";
 import {GetBooksResponse} from "../../../http/response/GetBooksResponse";
 
 export const BookActionCreators = {
-    setBooks: (payload: IBookWithAuthors[]): SetBooks => ({
+    setBooks: (payload: IBookWithAuthors[]): SetBooksAction => ({
         type: BookActionsEnum.SET_BOOKS,
         payload
     }),
-    setSelectedBook: (payload: IBookWithAuthors): SetSelectedBook => ({
+    setSelectedBook: (payload: IBookWithAuthors): SetSelectedBookAction => ({
         type: BookActionsEnum.SET_SELECTED_BOOK,
+        payload
+    }),
+    setIsLoading: (payload: boolean): SetIsLoadingAction => ({
+        type: BookActionsEnum.SET_IS_LOADING,
+        payload
+    }),
+    setError: (payload: string): SetErrorAction => ({
+        type: BookActionsEnum.SET_ERROR,
         payload
     }),
     getBooks: () => async (dispatch: AppDispatch) => {
