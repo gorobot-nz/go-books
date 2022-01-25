@@ -4,7 +4,6 @@ import {useActions} from "../hooks/useActions";
 import {LoadingOutlined} from '@ant-design/icons';
 import {Col, Layout, Row, Spin} from "antd";
 import BooksList from "../components/BooksList";
-import {compose} from "redux";
 
 const Books: FC = () => {
     const {books, isLoading} = useTypedSelector(state => state.bookReducer)

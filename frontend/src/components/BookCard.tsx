@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {IBookWithAuthors} from "../models/IBookWithAuthors";
-import {Button, Card, Divider, Select, Col} from "antd";
+import {Button, Card, Col, Divider, Row, Select} from "antd";
 
 interface BookCardProps {
     book: IBookWithAuthors
@@ -9,6 +9,13 @@ interface BookCardProps {
 const BookCard: FC<BookCardProps> = ({book}) => {
 
     const {Option} = Select;
+
+    const edit = (book: IBookWithAuthors) => {
+    }
+
+    const remove = (book: IBookWithAuthors) => {
+
+    }
 
     return (
         <Col md={6}>
@@ -28,9 +35,14 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                     )}
                 </Select>
                 <Divider/>
-                <Button>
-                    Подробнее
-                </Button>
+                <Row>
+                    <Button onClick={() => edit(book)}>
+                        Редактировать
+                    </Button>
+                    <Button onClick={() => remove(book)}>
+                        Удалить
+                    </Button>
+                </Row>
             </Card>
         </Col>
     );
