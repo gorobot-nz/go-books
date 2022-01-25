@@ -1,11 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useActions} from "../hooks/useActions";
-import {Col, Layout, Row} from "antd";
+import {LoadingOutlined} from '@ant-design/icons';
+import {Col, Layout, Row, Spin} from "antd";
 import BooksList from "../components/BooksList";
+import {compose} from "redux";
 
 const Books: FC = () => {
-    const {books} = useTypedSelector(state => state.bookReducer)
+    const {books, isLoading} = useTypedSelector(state => state.bookReducer)
 
     const {getBooks} = useActions()
 
@@ -15,11 +17,15 @@ const Books: FC = () => {
 
     return (
         <Layout>
-            <Row>
-                <Col md={24}>
-                    <BooksList books={books}/>
-                </Col>
-            </Row>
+            {isLoading ?
+                <Spin indicator={<LoadingOutlined style={{fontSize: 24}} spin/>}/>
+                :
+                <Row>
+                    <Col md={24}>
+                        <BooksList books={books}/>
+                    </Col>
+                </Row>
+            }
         </Layout>
     );
 };

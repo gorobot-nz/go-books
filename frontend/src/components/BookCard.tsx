@@ -11,7 +11,7 @@ const BookCard: FC<BookCardProps> = ({book}) => {
     const {Option} = Select;
 
     return (
-        <Col md={8}>
+        <Col md={6}>
             <Card key={book.book.id} title={book.book.title}>
                 <p>Desc: {book.book.description}</p>
                 <Divider/>

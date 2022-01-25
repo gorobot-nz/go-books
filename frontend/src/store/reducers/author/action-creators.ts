@@ -29,14 +29,18 @@ export const AuthorActionCreators = {
     }),
     getAuthors: () => async (dispatch: AppDispatch) => {
         try {
+            dispatch(AuthorActionCreators.setIsLoading(true))
             const {data} = await $api.get<GetAuthorResponse>('/author', {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
             dispatch(AuthorActionCreators.setAuthors(data.authors))
+            dispatch(AuthorActionCreators.setError(''))
+            dispatch(AuthorActionCreators.setIsLoading(false))
         } catch (e) {
-            console.log(e)
+            dispatch(AuthorActionCreators.setError('Get Authors error'))
+            dispatch(AuthorActionCreators.setIsLoading(false))
         }
     }
 }

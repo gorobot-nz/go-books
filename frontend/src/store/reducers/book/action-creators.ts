@@ -23,14 +23,18 @@ export const BookActionCreators = {
     }),
     getBooks: () => async (dispatch: AppDispatch) => {
         try {
+            dispatch(BookActionCreators.setIsLoading(true))
             const {data} = await $api.get<GetBooksResponse>('/book', {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
             dispatch(BookActionCreators.setBooks(data.books))
+            dispatch(BookActionCreators.setError(''))
+            dispatch(BookActionCreators.setIsLoading(false))
         } catch (e) {
-            console.log(e)
+            dispatch(BookActionCreators.setError('Get Books Error'))
+            dispatch(BookActionCreators.setIsLoading(false))
         }
     }
 }
