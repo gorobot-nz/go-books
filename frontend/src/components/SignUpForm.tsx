@@ -78,7 +78,7 @@ const SignUpForm: FC = () => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                    <Button type="primary" htmlType="submit" onClick={() => submit()}>
+                    <Button type="primary" htmlType="submit" onClick={submit}>
                         Submit
                     </Button>
                 </Form.Item>

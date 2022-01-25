@@ -12,11 +12,6 @@ const NavBar: FC = () => {
 
     const {logout} = useActions()
 
-    const submit = () => {
-        logout()
-        navigate(PublicRoutes.SIGNIN)
-    }
-
     return (
         <Layout.Header>
             {
@@ -49,7 +44,7 @@ const NavBar: FC = () => {
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
-                            <Button onClick={submit}>
+                            <Button onClick={logout}>
                                 Logout
                             </Button>
                         </Space>
