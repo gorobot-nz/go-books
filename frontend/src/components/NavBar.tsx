@@ -7,7 +7,7 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
-
+    const {postAuthor, getAuthors} = useActions()
     const {isAuth} = useTypedSelector(state => state.authReducer)
 
     const [isModalBookVisible, setIsModalBookVisible] = useState(false)
@@ -40,6 +40,8 @@ const NavBar: FC = () => {
     };
 
     const handleOkAuthor = () => {
+        postAuthor(name, surname)
+        getAuthors()
         setIsModalAuthorVisible(false);
     };
 

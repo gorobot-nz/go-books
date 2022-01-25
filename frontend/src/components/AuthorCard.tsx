@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {IAuthorWithBooks} from "../models/IAuthorWithBooks";
 import {Button, Card, Col, Divider, Form, Input, Modal, Row, Space} from "antd";
+import {useActions} from "../hooks/useActions";
 
 interface AuthorCardProps {
     author: IAuthorWithBooks
@@ -12,11 +13,15 @@ const AuthorCard: FC<AuthorCardProps> = ({author}) => {
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
 
+    const {updateAuthor, getAuthors, deleteAuthor} = useActions()
+
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
+    const handleOk = (id: number) => {
+        updateAuthor(id, name, surname)
+        getAuthors()
         setIsModalVisible(false);
     };
 
@@ -31,6 +36,7 @@ const AuthorCard: FC<AuthorCardProps> = ({author}) => {
     }
 
     const remove = (author: IAuthorWithBooks) => {
+        deleteAuthor(author.author.id)
         showModal()
     }
 
@@ -53,7 +59,8 @@ const AuthorCard: FC<AuthorCardProps> = ({author}) => {
                     </Space>
                 </Row>
             </Card>
-            <Modal title="Author" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Author" visible={isModalVisible} onOk={() => handleOk(author.author.id)}
+                   onCancel={handleCancel}>
                 <Form>
                     <Form.Item label="Title">
                         <Input

@@ -14,6 +14,14 @@ const $api = axios.create({
     baseURL: API_URL
 })
 
+$api.interceptors.request.use(
+    async config => {
+        config.headers = {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        }
+        return config;
+    });
+
 export {
     $auth,
     $api
