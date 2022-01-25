@@ -12,7 +12,7 @@ const BooksList: FC<BooksListProps> = ({books}) => {
     return (
         <Row>
             {books.map(book =>
-                <BookCard book={book}/>
+                <BookCard key={book.book.id} book={book}/>
             )}
         </Row>
     );
