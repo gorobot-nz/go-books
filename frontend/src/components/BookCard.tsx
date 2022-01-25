@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import {IBookWithAuthors} from "../models/IBookWithAuthors";
-import {Button, Card, Col, Divider, Input, Modal, Row, Select} from "antd";
+import {Button, Card, Col, Divider, Form, Input, Modal, Row, Select, Space} from "antd";
 
 interface BookCardProps {
     book: IBookWithAuthors
@@ -59,32 +59,46 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                     )}
                 </Select>
                 <Divider/>
-                <Row>
-                    <Button onClick={() => edit(book)}>
-                        Редактировать
-                    </Button>
-                    <Button onClick={() => remove(book)}>
-                        Удалить
-                    </Button>
+                <Row justify='end'>
+                    <Space>
+                        <Button onClick={() => edit(book)}>
+                            Редактировать
+                        </Button>
+                    </Space>
+                    <Space>
+                        <Button onClick={() => remove(book)}>
+                            Удалить
+                        </Button>
+                    </Space>
                 </Row>
             </Card>
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <Input
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                />
-                <Input
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                />
-                <Input
-                    value={price}
-                    onChange={e => setPrice(Number(e.target.value))}
-                />
-                <Input
-                    value={year}
-                    onChange={e => setYear(e.target.value)}
-                />
+            <Modal title="Book" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Form>
+                    <Form.Item label="Title">
+                        <Input
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Description">
+                        <Input
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Price">
+                        <Input
+                            value={price}
+                            onChange={e => setPrice(Number(e.target.value))}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Publishing year">
+                        <Input
+                            value={year}
+                            onChange={e => setYear(e.target.value)}
+                        />
+                    </Form.Item>
+                </Form>
             </Modal>
         </Col>
     );
