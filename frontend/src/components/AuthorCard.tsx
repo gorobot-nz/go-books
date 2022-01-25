@@ -42,7 +42,7 @@ const AuthorCard: FC<AuthorCardProps> = ({author}) => {
 
     return (
         <Col md={8}>
-            <Card key={author.author.id}>
+            <Card key={author.author.id} title={author.author.id}>
                 <p>{author.author.name}</p>
                 <p>{author.author.surname}</p>
                 <Divider/>

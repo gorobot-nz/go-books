@@ -7,7 +7,7 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
-    const {postAuthor, getAuthors} = useActions()
+    const {postAuthor, getAuthors, addBook} = useActions()
     const {isAuth} = useTypedSelector(state => state.authReducer)
 
     const [isModalBookVisible, setIsModalBookVisible] = useState(false)
@@ -16,12 +16,17 @@ const NavBar: FC = () => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
     const [year, setYear] = useState('')
+    const [authors, setAuthors] = useState('')
 
     const showModalBook = () => {
         setIsModalBookVisible(true);
     };
 
     const handleOkBook = () => {
+        const authorIds = authors.split(',').map(function (item) {
+            return parseInt(item, 10);
+        });
+        addBook(title, description, year, price, authorIds)
         setIsModalBookVisible(false);
     };
 
@@ -125,6 +130,12 @@ const NavBar: FC = () => {
                         <Input
                             value={year}
                             onChange={e => setYear(e.target.value)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Authors">
+                        <Input
+                            value={authors}
+                            onChange={e => setAuthors(e.target.value)}
                         />
                     </Form.Item>
                 </Form>

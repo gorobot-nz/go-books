@@ -24,12 +24,56 @@ export const BookActionCreators = {
     getBooks: () => async (dispatch: AppDispatch) => {
         try {
             dispatch(BookActionCreators.setIsLoading(true))
-            const {data} = await $api.get<GetBooksResponse>('/book', {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                }
-            })
+            const {data} = await $api.get<GetBooksResponse>('/book')
             dispatch(BookActionCreators.setBooks(data.books))
+            dispatch(BookActionCreators.setError(''))
+            dispatch(BookActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(BookActionCreators.setError('Get Books Error'))
+            dispatch(BookActionCreators.setIsLoading(false))
+        }
+    },
+    addBook: (title: string, description: string, date: string, price: number, authors: number[]) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(BookActionCreators.setIsLoading(true))
+            const {data} = await $api.post<string>('/book', {
+                book: {
+                    title,
+                    description,
+                    price,
+                    date,
+                },
+                authors: authors
+            })
+            console.log(data)
+            dispatch(BookActionCreators.setError(''))
+            dispatch(BookActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(BookActionCreators.setError('Get Books Error'))
+            dispatch(BookActionCreators.setIsLoading(false))
+        }
+    },
+    updateBook: (id: number, title: string, description: string, date: string, price: number) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(BookActionCreators.setIsLoading(true))
+            const {data} = await $api.put<string>(`/book/${id}`, {
+                title: title,
+                description: description,
+                price: price,
+                date: date
+            })
+            console.log(data)
+            dispatch(BookActionCreators.setError(''))
+            dispatch(BookActionCreators.setIsLoading(false))
+        } catch (e) {
+            dispatch(BookActionCreators.setError('Get Books Error'))
+            dispatch(BookActionCreators.setIsLoading(false))
+        }
+    },
+    deleteBook: (id: number) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(BookActionCreators.setIsLoading(true))
+            const {data} = await $api.delete<string>(`/book/${id}`)
             dispatch(BookActionCreators.setError(''))
             dispatch(BookActionCreators.setIsLoading(false))
         } catch (e) {

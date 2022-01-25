@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {IBookWithAuthors} from "../models/IBookWithAuthors";
 import {Button, Card, Col, Divider, Form, Input, Modal, Row, Select, Space} from "antd";
+import {useActions} from "../hooks/useActions";
 
 interface BookCardProps {
     book: IBookWithAuthors
@@ -17,11 +18,14 @@ const BookCard: FC<BookCardProps> = ({book}) => {
     const [price, setPrice] = useState(0)
     const [year, setYear] = useState('')
 
+    const {updateBook, deleteBook} = useActions()
+
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
+    const handleOk = (id: number) => {
+        updateBook(id, title, description, year, price)
         setIsModalVisible(false);
     };
 
@@ -37,7 +41,8 @@ const BookCard: FC<BookCardProps> = ({book}) => {
         setPrice(book.book.price)
     }
 
-    const remove = (book: IBookWithAuthors) => {
+    const remove = (id: number) => {
+        deleteBook(id)
         showModal()
     }
 
@@ -52,7 +57,7 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                 <Divider/>
                 <p>АВТОРЫ</p>
                 <Select style={{width: 250}}>
-                    {book.authors.map(author =>
+                    {book.authors?.map(author =>
                         <Option key={author.id} value={author.name}>
                             {author.name} {author.surname}
                         </Option>
@@ -66,13 +71,14 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                         </Button>
                     </Space>
                     <Space>
-                        <Button onClick={() => remove(book)}>
+                        <Button onClick={() => remove(book.book.id)}>
                             Удалить
                         </Button>
                     </Space>
                 </Row>
             </Card>
-            <Modal title="Book" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Book" visible={isModalVisible} onOk={() => handleOk(book.book.id)}
+                   onCancel={handleCancel}>
                 <Form>
                     <Form.Item label="Title">
                         <Input
