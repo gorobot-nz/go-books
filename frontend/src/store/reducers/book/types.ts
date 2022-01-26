@@ -15,22 +15,22 @@ export enum BookActionsEnum {
 }
 
 export interface SetBooksAction {
-    type: BookActionsEnum.SET_BOOKS,
+    type: BookActionsEnum.SET_BOOKS;
     payload: IBookWithAuthors[]
 }
 
 export interface SetSelectedBookAction {
-    type: BookActionsEnum.SET_SELECTED_BOOK,
+    type: BookActionsEnum.SET_SELECTED_BOOK;
     payload: IBookWithAuthors
 }
 
 export interface SetIsLoadingAction {
-    type: BookActionsEnum.SET_IS_LOADING,
+    type: BookActionsEnum.SET_IS_LOADING;
     payload: boolean
 }
 
 export interface SetErrorAction {
-    type: BookActionsEnum.SET_ERROR,
+    type: BookActionsEnum.SET_ERROR;
     payload: string
 }
 
