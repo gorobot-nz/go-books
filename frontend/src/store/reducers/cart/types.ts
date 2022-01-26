@@ -8,19 +8,13 @@ export interface CartState {
 }
 
 export enum CartActionsEnum {
-    ADD_BOOK_TO_CART = 'ADD_BOOK_TO_CART',
-    REMOVE_BOOK_FROM_CART = 'REMOVE_BOOK_FROM_CART',
+    SET_CART = 'SET_CART',
     SET_USER = 'SET_USER'
 }
 
-export interface AddBookToCartAction {
-    type: CartActionsEnum.ADD_BOOK_TO_CART;
-    payload: IBookWithAuthors;
-}
-
-export interface RemoveBookFromCart {
-    type: CartActionsEnum.REMOVE_BOOK_FROM_CART;
-    payload: number;
+export interface SetCartAction {
+    type: CartActionsEnum.SET_CART;
+    payload: ICart;
 }
 
 export interface SetUserAction {
@@ -28,4 +22,4 @@ export interface SetUserAction {
     payload: IUser;
 }
 
-export type CartAction = AddBookToCartAction | RemoveBookFromCart | SetUserAction
+export type CartAction = SetCartAction | SetUserAction
