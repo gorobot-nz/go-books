@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const adminId = 2
+const adminId = 1
 
 type AuthorHandler struct {
 	service domain.AuthorService
