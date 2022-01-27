@@ -1,18 +1,11 @@
-import {ICart} from "../../../models/ICart";
-import {CartActionsEnum, SetCartAction, SetUserAction} from "./types";
-import {IUser} from "../../../models/IUser";
+import {CartActionsEnum, SetCartWithBooksAction} from "./types";
 import {AppDispatch} from "../../index";
+import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 export const CartActionCreators = {
-    setCart: (payload: ICart): SetCartAction => ({
-        type: CartActionsEnum.SET_CART,
+    setCart: (payload: IBookWithAuthors[]): SetCartWithBooksAction => ({
+        type: CartActionsEnum.SET_CART_WITH_BOOKS,
         payload
     }),
-    setUser: (payload: IUser): SetUserAction => ({
-        type: CartActionsEnum.SET_USER,
-        payload
-    }),
-    buy: () => async (dispatch: AppDispatch) => ({
-
-    })
+    buy: () => async (dispatch: AppDispatch) => ({})
 }

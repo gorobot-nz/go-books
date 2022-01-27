@@ -1,25 +1,16 @@
-import {ICart} from "../../../models/ICart";
-import {IUser} from "../../../models/IUser";
 import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 export interface CartState {
-    cart: ICart;
-    cartUser: IUser;
+    cartWithBooks: IBookWithAuthors[];
 }
 
 export enum CartActionsEnum {
-    SET_CART = 'SET_CART',
-    SET_USER = 'SET_USER'
+    SET_CART_WITH_BOOKS = 'SET_CART_WITH_BOOKS',
 }
 
-export interface SetCartAction {
-    type: CartActionsEnum.SET_CART;
-    payload: ICart;
+export interface SetCartWithBooksAction {
+    type: CartActionsEnum.SET_CART_WITH_BOOKS;
+    payload: IBookWithAuthors[];
 }
 
-export interface SetUserAction {
-    type: CartActionsEnum.SET_USER;
-    payload: IUser;
-}
-
-export type CartAction = SetCartAction | SetUserAction
+export type CartAction = SetCartWithBooksAction
