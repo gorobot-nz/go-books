@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
-import {IBookWithAuthors} from "../models/IBookWithAuthors";
+import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 import {Button, Card, Col, Divider, Form, Input, Modal, Row, Select, Space} from "antd";
-import {useActions} from "../hooks/useActions";
+import {useActions} from "../../hooks/useActions";
 
 interface BookCardProps {
     book: IBookWithAuthors

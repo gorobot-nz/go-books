@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout, Row} from "antd";
-import SignInForm from "../components/SignInForm";
+import SignInForm from "../components/forms/SignInForm";
 
 const SignIn = () => {
     return (

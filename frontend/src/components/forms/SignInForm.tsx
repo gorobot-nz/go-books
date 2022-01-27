@@ -1,8 +1,10 @@
 import React, {FC, useState} from 'react';
-import {Button, Card, Form, Input} from "antd";
-import {useActions} from "../hooks/useActions";
+import {Button, Card, Checkbox, Form, Input} from "antd";
+import {useActions} from "../../hooks/useActions";
+import {useNavigate} from "react-router-dom";
+import {PrivateRoutes} from "../../routes";
 
-const SignUpForm: FC = () => {
+const SignInForm: FC = () => {
     const onFinish = (values: any) => {
         console.log('Success:', values);
     };
@@ -11,16 +13,18 @@ const SignUpForm: FC = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const {signUp} = useActions()
+
+    const {signIn} = useActions()
+    const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
-    const [surname, setSurname] = useState('')
 
     const submit = () => {
-        signUp(username, password, name, surname)
+        signIn(username, password)
+        navigate(PrivateRoutes.BOOKS)
     }
+
 
     return (
         <Card>
@@ -55,26 +59,8 @@ const SignUpForm: FC = () => {
                     />
                 </Form.Item>
 
-                <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[{required: true, message: 'Please input your name!'}]}
-                >
-                    <Input
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
-                </Form.Item>
-
-                <Form.Item
-                    label="Surname"
-                    name="surname"
-                    rules={[{required: true, message: 'Please input your surname!'}]}
-                >
-                    <Input
-                        value={surname}
-                        onChange={e => setSurname(e.target.value)}
-                    />
+                <Form.Item name="remember" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}>
+                    <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
@@ -87,4 +73,4 @@ const SignUpForm: FC = () => {
     );
 };
 
-export default SignUpForm;
+export default SignInForm;

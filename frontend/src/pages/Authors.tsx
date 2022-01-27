@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useActions} from "../hooks/useActions";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {Col, Layout, Row, Spin} from "antd";
-import AuthorsList from "../components/AuthorsList";
+import AuthorsList from "../components/lists/AuthorsList";
 import {LoadingOutlined} from "@ant-design/icons";
 
 const Authors = () => {

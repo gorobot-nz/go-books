@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import AppRouter from "./components/AppRouter";
+import AppRouter from "./components/routes/AppRouter";
 import {Layout} from "antd";
 import "./App.css"
 import {useDispatch} from "react-redux";
@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import {Token} from "./models/Token";
 import {useNavigate} from "react-router-dom";
 import {PrivateRoutes, PublicRoutes} from "./routes";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/routes/NavBar";
 
 function App() {
     const dispatcher = useDispatch()

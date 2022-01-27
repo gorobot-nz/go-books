@@ -1,10 +1,8 @@
 import React, {FC, useState} from 'react';
-import {Button, Card, Checkbox, Form, Input} from "antd";
-import {useActions} from "../hooks/useActions";
-import {useNavigate} from "react-router-dom";
-import {PrivateRoutes} from "../routes";
+import {Button, Card, Form, Input} from "antd";
+import {useActions} from "../../hooks/useActions";
 
-const SignInForm: FC = () => {
+const SignUpForm: FC = () => {
     const onFinish = (values: any) => {
         console.log('Success:', values);
     };
@@ -13,18 +11,16 @@ const SignInForm: FC = () => {
         console.log('Failed:', errorInfo);
     };
 
-
-    const {signIn} = useActions()
-    const navigate = useNavigate()
+    const {signUp} = useActions()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
 
     const submit = () => {
-        signIn(username, password)
-        navigate(PrivateRoutes.BOOKS)
+        signUp(username, password, name, surname)
     }
-
 
     return (
         <Card>
@@ -59,8 +55,26 @@ const SignInForm: FC = () => {
                     />
                 </Form.Item>
 
-                <Form.Item name="remember" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}>
-                    <Checkbox>Remember me</Checkbox>
+                <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[{required: true, message: 'Please input your name!'}]}
+                >
+                    <Input
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    label="Surname"
+                    name="surname"
+                    rules={[{required: true, message: 'Please input your surname!'}]}
+                >
+                    <Input
+                        value={surname}
+                        onChange={e => setSurname(e.target.value)}
+                    />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
@@ -73,4 +87,4 @@ const SignInForm: FC = () => {
     );
 };
 
-export default SignInForm;
+export default SignUpForm;

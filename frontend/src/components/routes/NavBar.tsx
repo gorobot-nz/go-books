@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {Button, Divider, Form, Input, Layout, Modal, Row, Space} from "antd";
-import {PrivateRoutes, PublicRoutes} from "../routes";
-import {useActions} from "../hooks/useActions";
-import {useTypedSelector} from "../hooks/useTypedSelector";
+import {PrivateRoutes, PublicRoutes} from "../../routes";
+import {useActions} from "../../hooks/useActions";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
@@ -82,6 +82,12 @@ const NavBar: FC = () => {
                         <Space>
                             <Button onClick={showModalAuthor}>
                                 Добавить автора
+                            </Button>
+                        </Space>
+                        <Divider type="vertical"/>
+                        <Space>
+                            <Button onClick={() => navigate(PrivateRoutes.CART)}>
+                                Корзина
                             </Button>
                         </Space>
                         <Divider type="vertical"/>

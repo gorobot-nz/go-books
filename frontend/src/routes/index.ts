@@ -6,4 +6,5 @@ export enum PublicRoutes {
 export enum PrivateRoutes {
     BOOKS = "/book",
     AUTHORS = "/author",
+    CART = "/cart",
 }
