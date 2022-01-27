@@ -2,7 +2,7 @@ import {CartAction, CartActionsEnum, CartState} from "./types";
 import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 const initialState: CartState = {
-    cartWithBooks: [] as IBookWithAuthors[],
+    cartWithBooks: new Map<IBookWithAuthors, number>(),
 }
 
 export default function cartReducer(state = initialState, action: CartAction): CartState {
