@@ -39,12 +39,12 @@ export const AuthorActionCreators = {
             dispatch(AuthorActionCreators.setIsLoading(false))
         }
     },
-    postAuthor: (name: string, surname: string) => async (dispatch: AppDispatch) => {
+    addAuthor: (author: IAuthorWithBooks) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthorActionCreators.setIsLoading(true))
             const {data} = await $api.post<string>('/author', {
-                name: name,
-                surname: surname
+                name: author.author.name,
+                surname: author.author.surname
             })
             console.log(data)
             dispatch(AuthorActionCreators.setIsLoading(false))
@@ -53,12 +53,12 @@ export const AuthorActionCreators = {
             dispatch(AuthorActionCreators.setIsLoading(false))
         }
     },
-    updateAuthor: (id: number, name: string, surname: string) => async (dispatch: AppDispatch) => {
+    updateAuthor: (author: IAuthorWithBooks) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthorActionCreators.setIsLoading(true))
-            const {data} = await $api.put<string>(`/author/${id}`, {
-                name: name,
-                surname: surname
+            const {data} = await $api.put<string>(`/author/${author.author.id}`, {
+                name: author.author.name,
+                surname: author.author.surname,
             })
             console.log(data)
             dispatch(AuthorActionCreators.setIsLoading(false))

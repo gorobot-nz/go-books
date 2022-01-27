@@ -16,7 +16,7 @@ const AuthorsList: FC<AuthorsListProps> = ({authors}) => {
         <Row>
             {authors?.map(author =>
                 <AuthorCard
-                    key={author.author.id}
+                    key={author?.author?.id}
                     author={author}
                     setIsModalVisible={setIsModalVisible}
                     setAuthor={setAuthor}

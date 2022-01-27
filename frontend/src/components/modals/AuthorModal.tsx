@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {Form, Input, Modal} from "antd";
 import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
+import {useActions} from "../../hooks/useActions";
 
 interface AuthorModalProps {
     author: IAuthorWithBooks
@@ -11,17 +12,23 @@ interface AuthorModalProps {
 
 const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVisible, isUpdate}) => {
     const [authorInput, setAuthorInput] = useState(author)
+    const {updateAuthor, addAuthor} = useActions()
 
     useEffect(() => {
-        setIsModalVisible(isModalVisible)
-    }, [isModalVisible])
+        setAuthorInput(author)
+    }, [author])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setAuthorInput(prevState => ({...prevState, [name]: value}))
     }
 
-    const handleOk = (authorId: number) => {
+    const handleOk = (author: IAuthorWithBooks) => {
+        if (isUpdate) {
+            updateAuthor(author)
+        } else {
+            addAuthor(author)
+        }
         setIsModalVisible(false)
     }
 
@@ -30,7 +37,7 @@ const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVi
     }
 
     return (
-        <Modal title="Author" visible={isModalVisible} onOk={() => handleOk(0)}
+        <Modal title="Author" visible={isModalVisible} onOk={() => handleOk(authorInput)}
                onCancel={handleCancel}>
             <Form>
                 <Form.Item label="Title">
