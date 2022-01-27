@@ -33,15 +33,15 @@ export const BookActionCreators = {
             dispatch(BookActionCreators.setIsLoading(false))
         }
     },
-    addBook: (title: string, description: string, date: string, price: number, authors: number[]) => async (dispatch: AppDispatch) => {
+    addBook: (book: IBookWithAuthors, authors: number[]) => async (dispatch: AppDispatch) => {
         try {
             dispatch(BookActionCreators.setIsLoading(true))
             const {data} = await $api.post<string>('/book', {
                 book: {
-                    title,
-                    description,
-                    price,
-                    date,
+                    title: book.book.title,
+                    description: book.book.description,
+                    price: book.book.price,
+                    date: book.book.date,
                 },
                 authors: authors
             })
@@ -53,14 +53,14 @@ export const BookActionCreators = {
             dispatch(BookActionCreators.setIsLoading(false))
         }
     },
-    updateBook: (id: number, title: string, description: string, date: string, price: number) => async (dispatch: AppDispatch) => {
+    updateBook: (book: IBookWithAuthors) => async (dispatch: AppDispatch) => {
         try {
             dispatch(BookActionCreators.setIsLoading(true))
-            const {data} = await $api.put<string>(`/book/${id}`, {
-                title: title,
-                description: description,
-                price: price,
-                date: date
+            const {data} = await $api.put<string>(`/book/${book.book.id}`, {
+                title: book.book.title,
+                description: book.book.description,
+                price: book.book.price,
+                date: book.book.date
             })
             console.log(data)
             dispatch(BookActionCreators.setError(''))

@@ -23,11 +23,11 @@ const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVi
         setAuthorInput(prevState => ({...prevState, [name]: value}))
     }
 
-    const handleOk = (author: IAuthorWithBooks) => {
+    const handleOk = () => {
         if (isUpdate) {
-            updateAuthor(author)
+            updateAuthor(authorInput)
         } else {
-            addAuthor(author)
+            addAuthor(authorInput)
         }
         setIsModalVisible(false)
     }
@@ -37,7 +37,7 @@ const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVi
     }
 
     return (
-        <Modal title="Author" visible={isModalVisible} onOk={() => handleOk(authorInput)}
+        <Modal title="Author" visible={isModalVisible} onOk={handleOk}
                onCancel={handleCancel}>
             <Form>
                 <Form.Item label="Title">

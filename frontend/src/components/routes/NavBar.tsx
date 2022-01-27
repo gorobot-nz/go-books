@@ -1,42 +1,19 @@
 import React, {FC, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import {Button, Divider, Form, Input, Layout, Modal, Row, Space} from "antd";
+import {Button, Divider, Layout, Row, Space} from "antd";
 import {PrivateRoutes, PublicRoutes} from "../../routes";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import AuthorModal from "../modals/AuthorModal";
 import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
+import BookModal from "../modals/BookModal";
+import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
-    const {getAuthors, addBook} = useActions()
     const {isAuth} = useTypedSelector(state => state.authReducer)
 
     const [isModalBookVisible, setIsModalBookVisible] = useState(false)
-
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(0)
-    const [year, setYear] = useState('')
-    const [authors, setAuthors] = useState('')
-
-    const showModalBook = () => {
-        setIsModalBookVisible(true);
-    };
-
-    const handleOkBook = () => {
-        const authorIds = authors.split(',').map(function (item) {
-            return parseInt(item, 10);
-        });
-        addBook(title, description, year, price, authorIds)
-        setIsModalBookVisible(false);
-    };
-
-    const handleCancelBook = () => {
-        setIsModalBookVisible(false);
-    };
-
-    //------------------------------------------------------------------------------------------------------------------
     const [isModalAuthorVisible, setIsModalAuthorVisible] = useState(false)
 
     const {logout} = useActions()
@@ -59,7 +36,7 @@ const NavBar: FC = () => {
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
-                            <Button onClick={showModalBook}>
+                            <Button onClick={() => setIsModalBookVisible(true)}>
                                 Добавить книгу
                             </Button>
                         </Space>
@@ -97,40 +74,11 @@ const NavBar: FC = () => {
                         </Space>
                     </Row>
             }
-            <Modal title="Book" visible={isModalBookVisible} onOk={handleOkBook} onCancel={handleCancelBook}>
-                <Form>
-                    <Form.Item label="Title">
-                        <Input
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Description">
-                        <Input
-                            value={description}
-                            onChange={e => setDescription(e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Price">
-                        <Input
-                            value={price}
-                            onChange={e => setPrice(Number(e.target.value))}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Publishing year">
-                        <Input
-                            value={year}
-                            onChange={e => setYear(e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Authors">
-                        <Input
-                            value={authors}
-                            onChange={e => setAuthors(e.target.value)}
-                        />
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <BookModal
+                book={{} as IBookWithAuthors}
+                isModalVisible={isModalBookVisible}
+                setIsModalVisible={setIsModalBookVisible}
+                isUpdate={false}/>
             <AuthorModal
                 author={{} as IAuthorWithBooks}
                 isModalVisible={isModalAuthorVisible}
