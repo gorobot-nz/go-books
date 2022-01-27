@@ -4,10 +4,12 @@ import {Button, Divider, Form, Input, Layout, Modal, Row, Space} from "antd";
 import {PrivateRoutes, PublicRoutes} from "../../routes";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import AuthorModal from "../modals/AuthorModal";
+import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
-    const {postAuthor, getAuthors, addBook} = useActions()
+    const {getAuthors, addBook} = useActions()
     const {isAuth} = useTypedSelector(state => state.authReducer)
 
     const [isModalBookVisible, setIsModalBookVisible] = useState(false)
@@ -37,23 +39,6 @@ const NavBar: FC = () => {
     //------------------------------------------------------------------------------------------------------------------
     const [isModalAuthorVisible, setIsModalAuthorVisible] = useState(false)
 
-    const [name, setName] = useState('')
-    const [surname, setSurname] = useState('')
-
-    const showModalAuthor = () => {
-        setIsModalAuthorVisible(true);
-    };
-
-    const handleOkAuthor = () => {
-        postAuthor(name, surname)
-        getAuthors()
-        setIsModalAuthorVisible(false);
-    };
-
-    const handleCancelAuthor = () => {
-        setIsModalAuthorVisible(false);
-    };
-
     const {logout} = useActions()
 
     return (
@@ -80,7 +65,7 @@ const NavBar: FC = () => {
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
-                            <Button onClick={showModalAuthor}>
+                            <Button onClick={() => setIsModalAuthorVisible(true)}>
                                 Добавить автора
                             </Button>
                         </Space>
@@ -146,22 +131,12 @@ const NavBar: FC = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Modal title="Author" visible={isModalAuthorVisible} onOk={handleOkAuthor} onCancel={handleCancelAuthor}>
-                <Form>
-                    <Form.Item label="Title">
-                        <Input
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Description">
-                        <Input
-                            value={surname}
-                            onChange={e => setSurname(e.target.value)}
-                        />
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <AuthorModal
+                author={{} as IAuthorWithBooks}
+                isModalVisible={isModalAuthorVisible}
+                setIsModalVisible={setIsModalAuthorVisible}
+                isUpdate={false}
+            />
         </Layout.Header>
     );
 };
