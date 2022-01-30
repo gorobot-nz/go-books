@@ -1,22 +1,17 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {useNavigate} from "react-router-dom";
 import {Button, Divider, Layout, Row, Space} from "antd";
 import {PrivateRoutes, PublicRoutes} from "../../routes";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import AuthorModal from "../modals/AuthorModal";
-import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
-import BookModal from "../modals/BookModal";
-import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 
 const NavBar: FC = () => {
     const navigate = useNavigate()
     const {isAuth} = useTypedSelector(state => state.authReducer)
+    const {isBookModalVisible} = useTypedSelector(state => state.bookReducer)
+    const {isAuthorModalVisible} = useTypedSelector(state => state.authorReducer)
 
-    const [isModalBookVisible, setIsModalBookVisible] = useState(false)
-    const [isModalAuthorVisible, setIsModalAuthorVisible] = useState(false)
-
-    const {logout} = useActions()
+    const {logout, setIsAuthorModalVisible, setIsBookModalVisible} = useActions()
 
     return (
         <Layout.Header>
@@ -36,13 +31,13 @@ const NavBar: FC = () => {
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
-                            <Button onClick={() => setIsModalBookVisible(true)}>
+                            <Button onClick={() => setIsBookModalVisible(true)}>
                                 Добавить книгу
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
-                            <Button onClick={() => setIsModalAuthorVisible(true)}>
+                            <Button onClick={() => setIsAuthorModalVisible(true)}>
                                 Добавить автора
                             </Button>
                         </Space>
@@ -74,17 +69,6 @@ const NavBar: FC = () => {
                         </Space>
                     </Row>
             }
-            <BookModal
-                book={{} as IBookWithAuthors}
-                isModalVisible={isModalBookVisible}
-                setIsModalVisible={setIsModalBookVisible}
-                isUpdate={false}/>
-            <AuthorModal
-                author={{} as IAuthorWithBooks}
-                isModalVisible={isModalAuthorVisible}
-                setIsModalVisible={setIsModalAuthorVisible}
-                isUpdate={false}
-            />
         </Layout.Header>
     );
 };
