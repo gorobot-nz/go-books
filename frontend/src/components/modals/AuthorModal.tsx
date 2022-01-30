@@ -34,13 +34,13 @@ const AuthorModal = () => {
         <Modal title="Author" visible={isAuthorModalVisible} onOk={handleOk}
                onCancel={handleCancel}>
             <Form>
-                <Form.Item label="Title">
+                <Form.Item label="Name">
                     <Input
                         value={selectedAuthor?.author?.name}
                         onChange={e => setName(e.target.value)}
                     />
                 </Form.Item>
-                <Form.Item label="Description">
+                <Form.Item label="Surname">
                     <Input
                         value={selectedAuthor?.author?.surname}
                         onChange={e => setSurname(e.target.value)}

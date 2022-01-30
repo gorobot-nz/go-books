@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
-import {Button, Card, Col, Divider, Row, Space} from "antd";
+import {Button, Card, Col, Divider, Row} from "antd";
 import {useActions} from "../../hooks/useActions";
 
 interface AuthorCardProps {
@@ -26,17 +26,18 @@ const AuthorCard: FC<AuthorCardProps> = ({author}) => {
                 <p>{author.author.name}</p>
                 <p>{author.author.surname}</p>
                 <Divider/>
-                <Row justify='end'>
-                    <Space>
+                <Row>
+                    <Col>
                         <Button onClick={handleEdit}>
-                            Редактировать
+                            Edit
                         </Button>
-                    </Space>
-                    <Space>
+                    </Col>
+                    <Divider type='vertical'/>
+                    <Col>
                         <Button onClick={() => handleDelete(author.author.id)}>
-                            Удалить
+                            Delete
                         </Button>
-                    </Space>
+                    </Col>
                 </Row>
             </Card>
         </Col>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useActions} from "../../hooks/useActions";
 import {Form, Input, Modal} from "antd";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
@@ -8,17 +8,12 @@ import {IBook} from "../../models/IBook";
 
 const BookModal = () => {
     const {isBookModalVisible, selectedBook, isBookUpdated} = useTypedSelector(state => state.bookReducer)
-    const [bookInput, setBookInput] = useState(selectedBook)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [year, setYear] = useState('')
     const [authors, setAuthors] = useState('')
     const {updateBook, addBook, setIsBookModalVisible, setSelectedBook} = useActions()
-
-    useEffect(() => {
-        setBookInput(selectedBook)
-    }, [selectedBook])
 
     const handleOk = () => {
         const book = {book: {} as IBook, authors: [] as IAuthor[]} as IBookWithAuthors
@@ -67,7 +62,7 @@ const BookModal = () => {
                 </Form.Item>
                 <Form.Item label="Publishing year">
                     <Input
-                        value={selectedBook?.book?.date}
+                        value={selectedBook?.book?.date.slice(0, 4)}
                         onChange={e => setYear(e.target.value)}
                     />
                 </Form.Item>

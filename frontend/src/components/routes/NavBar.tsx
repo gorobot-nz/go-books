@@ -18,31 +18,31 @@ const NavBar: FC = () => {
                     <Row justify="center">
                         <Space>
                             <Button onClick={() => navigate(PrivateRoutes.BOOKS)}>
-                                Книги
+                                Books
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
                             <Button onClick={() => navigate(PrivateRoutes.AUTHORS)}>
-                                Авторы
+                                Author
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
                             <Button onClick={() => setIsBookModalVisible(true)}>
-                                Добавить книгу
+                                Add book
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
                             <Button onClick={() => setIsAuthorModalVisible(true)}>
-                                Добавить автора
+                                Add author
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
                         <Space>
                             <Button onClick={() => navigate(PrivateRoutes.CART)}>
-                                Корзина
+                                Cart
                             </Button>
                         </Space>
                         <Divider type="vertical"/>
