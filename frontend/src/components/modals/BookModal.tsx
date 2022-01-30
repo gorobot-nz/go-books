@@ -5,12 +5,10 @@ import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 
 const BookModal = () => {
-    const {updateBook, addBook} = useActions()
     const {isBookModalVisible, selectedBook, isBookUpdated} = useTypedSelector(state => state.bookReducer)
-    const [bookInput, setBookInput] = useState({} as IBookWithAuthors)
+    const [bookInput, setBookInput] = useState(selectedBook)
     const [authors, setAuthors] = useState('')
-
-    const {setIsBookModalVisible, setSelectedBook} = useActions()
+    const {updateBook, addBook, setIsBookModalVisible, setSelectedBook} = useActions()
 
     useEffect(() => {
         setBookInput(selectedBook)

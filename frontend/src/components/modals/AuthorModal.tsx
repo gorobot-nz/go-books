@@ -1,62 +1,47 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Input, Modal} from "antd";
 import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
 import {useActions} from "../../hooks/useActions";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
-interface AuthorModalProps {
-    author: IAuthorWithBooks
-    isModalVisible: boolean;
-    setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-    isUpdate: boolean;
-}
-
-const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVisible, isUpdate}) => {
-    const [authorInput, setAuthorInput] = useState(author)
-    const {updateAuthor, addAuthor} = useActions()
+const AuthorModal = () => {
+    const {isAuthorModalVisible, selectedAuthor, isAuthorUpdated} = useTypedSelector(state => state.authorReducer)
+    const [authorInput, setAuthorInput] = useState(selectedAuthor)
+    const {updateAuthor, addAuthor, setIsAuthorModalVisible, setSelectedAuthor} = useActions()
 
     useEffect(() => {
-        setAuthorInput(author)
-    }, [author])
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target
-        setAuthorInput(prevState => ({...prevState, [name]: value}))
-    }
+        setAuthorInput(selectedAuthor)
+    }, [selectedAuthor])
 
     const handleOk = () => {
-        const sendAuthor = {} as IAuthorWithBooks
-        sendAuthor.author.name = authorInput.author.name
-        sendAuthor.author.surname = authorInput.author.surname
-        if (isUpdate) {
+        if (isAuthorUpdated) {
             updateAuthor(authorInput)
         } else {
             addAuthor(authorInput)
         }
-        setIsModalVisible(false)
-        setAuthorInput({} as IAuthorWithBooks)
+        setIsAuthorModalVisible(false)
+        setSelectedAuthor({} as IAuthorWithBooks)
     }
 
     const handleCancel = () => {
-        setIsModalVisible(false)
-        setAuthorInput({} as IAuthorWithBooks)
+        setIsAuthorModalVisible(false)
+        setSelectedAuthor({} as IAuthorWithBooks)
     }
 
     return (
-        <Modal title="Author" visible={isModalVisible} onOk={handleOk}
+        <Modal title="Author" visible={isAuthorModalVisible} onOk={handleOk}
                onCancel={handleCancel}>
             <Form>
                 <Form.Item label="Title">
                     <Input
                         value={authorInput?.author?.name}
-                        name='author.name'
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
                 <Form.Item label="Description">
                     <Input
                         value={authorInput?.author?.surname}
-                        name='author.surname'
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
             </Form>

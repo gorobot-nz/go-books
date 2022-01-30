@@ -5,17 +5,15 @@ import {useActions} from "../../hooks/useActions";
 
 interface AuthorCardProps {
     author: IAuthorWithBooks
-    setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-    setAuthor: React.Dispatch<React.SetStateAction<IAuthorWithBooks>>
 }
 
-const AuthorCard: FC<AuthorCardProps> = ({author, setIsModalVisible, setAuthor}) => {
+const AuthorCard: FC<AuthorCardProps> = ({author}) => {
 
-    const {deleteAuthor} = useActions()
+    const {deleteAuthor, setIsAuthorModalVisible, setSelectedAuthor} = useActions()
 
     const handleEdit = () => {
-        setIsModalVisible(true)
-        setAuthor(author)
+        setIsAuthorModalVisible(true)
+        setSelectedAuthor(author)
     }
 
     const handleDelete = (id: number) => {
