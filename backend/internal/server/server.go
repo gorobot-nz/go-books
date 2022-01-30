@@ -2,13 +2,6 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/gorobot-nz/go-books/pkg/middleware"
-	"github.com/jmoiron/sqlx"
-	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-
 	authorHttp "github.com/gorobot-nz/go-books/internal/author/handler/http"
 	authorPostgres "github.com/gorobot-nz/go-books/internal/author/repository/postgres"
 	authorService "github.com/gorobot-nz/go-books/internal/author/service"
@@ -16,9 +9,17 @@ import (
 	bookPostgres "github.com/gorobot-nz/go-books/internal/book/repository/postgres"
 	bookService "github.com/gorobot-nz/go-books/internal/book/service"
 	"github.com/gorobot-nz/go-books/internal/domain"
+	stripeHttp "github.com/gorobot-nz/go-books/internal/stripe/handler/http"
+	stripeService "github.com/gorobot-nz/go-books/internal/stripe/service"
 	userHttp "github.com/gorobot-nz/go-books/internal/user/handler/http"
 	userPostgres "github.com/gorobot-nz/go-books/internal/user/repository/postgres"
 	userService "github.com/gorobot-nz/go-books/internal/user/service"
+	"github.com/gorobot-nz/go-books/pkg/middleware"
+	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 
 	"context"
 	"fmt"
@@ -56,6 +57,7 @@ type App struct {
 	userService   domain.UserService
 	bookService   domain.BookService
 	authorService domain.AuthorService
+	stripeService domain.StripeService
 }
 
 func NewApp() *App {
@@ -81,6 +83,7 @@ func NewApp() *App {
 		userService:   userService.NewUserService(userRepository),
 		bookService:   bookService.NewBookService(bookRepository),
 		authorService: authorService.NewAuthorService(authorRepository),
+		stripeService: stripeService.NewStripeService(),
 	}
 }
 
@@ -99,6 +102,7 @@ func (a *App) Run() error {
 	authorHttp.RegisterEndpoints(api, a.authorService)
 	bookHttp.RegisterEndpoints(api, a.bookService)
 	userHttp.RegisterEndpoints(router, a.userService)
+	stripeHttp.RegisterEndpoints(router, a.stripeService)
 
 	a.server = &http.Server{
 		Addr:           ":" + viper.GetString(appPort),

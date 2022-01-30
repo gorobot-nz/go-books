@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://js.stripe.com/v3/"></script>
     <meta charset="UTF-8">
     <title>Hello</title>
 </head>
@@ -8,23 +9,62 @@
 <p>HELLO</p>
 <div>
     <label>
-        Enter books' ids: <input type="text"/>
+        Enter books' ids: <input id='books' type='text'/>
     </label>
 </div>
 <hr/>
 <div>
     <label>
-        Enter your id: <input type="text"/>
+        Enter your id: <input id='user' type='text'/>
     </label>
 </div>
 <hr/>
 <div>
     <label>
-        Enter books' price: <input type="text"/> $
+        Enter books' price: <input id='price' type='text'/> $
     </label>
 </div>
 <hr/>
+
 <button>click me</button>
-<script src="index.js"></script>
+
+<script>
+    const stripe = Stripe("pk_test_51KM8UWD5oBk3DmS9OTO6TRwyDHetko1QtTh32u83kmV35nCCpdjsIOfJQZxpwSvPhGY7YOJZHWlPVOStk1SubBn5004A8x6HT8");
+    const button = document.querySelector('button')
+    button.onclick = () => {
+        let books = document.getElementById('books').value
+        books = books.split(',').map(item => {
+            return parseInt(item, 10)
+        })
+        const userId = getValue('user')
+        const price = getValue('price')
+
+        fetch('http://localhost:8080/stripe/accept', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                books,
+                userId,
+                price
+            })
+        }).then(
+            async response => {
+                const res = await response.json();
+                console.log(res);
+                const id = res.id;
+                console.log(id);
+                stripe.redirectToCheckout({sessionId: id});
+            }
+        )
+    }
+
+    function getValue(id) {
+        let result = document.getElementById(id).value
+        return parseInt(result, 10)
+    }
+</script>
+
 </body>
 </html>
