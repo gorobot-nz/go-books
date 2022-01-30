@@ -6,7 +6,8 @@ const initialState: AuthorState = {
     selectedAuthor: {} as IAuthorWithBooks,
     isAuthorModalVisible: false,
     error: '',
-    isLoading: false
+    isLoading: false,
+    isAuthorUpdated: false
 }
 
 export default function authorReducer(state = initialState, action: AuthorAction): AuthorState {
@@ -21,6 +22,8 @@ export default function authorReducer(state = initialState, action: AuthorAction
             return {...state, isAuthorModalVisible: action.payload}
         case AuthorActionsEnum.SET_ERROR:
             return {...state, error: action.payload}
+        case AuthorActionsEnum.SET_IS_AUTHOR_UPDATED:
+            return {...state, isAuthorUpdated: action.payload}
         default:
             return state
     }

@@ -4,6 +4,7 @@ import {
     SetBooksAction,
     SetErrorAction,
     SetIsBookModalVisibleAction,
+    SetIsBookUpdatedAction,
     SetIsLoadingAction,
     SetSelectedBookAction
 } from "./types";
@@ -30,6 +31,10 @@ export const BookActionCreators = {
     }),
     setError: (payload: string): SetErrorAction => ({
         type: BookActionsEnum.SET_ERROR,
+        payload
+    }),
+    setIsBookUpdated: (payload: boolean): SetIsBookUpdatedAction => ({
+        type: BookActionsEnum.SET_IS_BOOK_UPDATED,
         payload
     }),
     getBooks: () => async (dispatch: AppDispatch) => {

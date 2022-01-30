@@ -68,7 +68,7 @@ const BookModal = () => {
                         <Form.Item label="Authors">
                             <Input
                                 value={authors}
-                                onChange={e => e.target.value}
+                                onChange={e => setAuthors(e.target.value)}
                             />
                         </Form.Item>
                         :

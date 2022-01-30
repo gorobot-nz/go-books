@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 import {Row} from "antd";
 import BookCard from "../cards/BookCard";
@@ -9,16 +9,12 @@ interface BooksListProps {
 }
 
 const BooksList: FC<BooksListProps> = ({books}) => {
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [book, setBook] = useState({} as IBookWithAuthors)
-
     return (
         <Row>
             {books?.map(book =>
-                <BookCard key={book.book.id} book={book} setIsModalVisible={setIsModalVisible} setBook={setBook}/>
+                <BookCard key={book.book.id} book={book}/>
             )}
-            <BookModal book={book} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}
-                       isUpdate={true}/>
+            <BookModal/>
         </Row>
     );
 };

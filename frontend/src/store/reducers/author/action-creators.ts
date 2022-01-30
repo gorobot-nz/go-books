@@ -4,6 +4,7 @@ import {
     SetAuthorsAction,
     SetErrorAction,
     SetIsAuthorModalVisibleAction,
+    SetIsAuthorUpdatedAction,
     SetIsLoadingAction,
     SetSelectedAuthorAction
 } from "./types";
@@ -18,6 +19,10 @@ export const AuthorActionCreators = {
     }),
     setSelectedAuthor: (payload: IAuthorWithBooks): SetSelectedAuthorAction => ({
         type: AuthorActionsEnum.SET_SELECTED_AUTHOR,
+        payload
+    }),
+    setIsAuthorUpdated: (payload: boolean): SetIsAuthorUpdatedAction => ({
+        type: AuthorActionsEnum.SET_IS_AUTHOR_UPDATED,
         payload
     }),
     setIsLoading: (payload: boolean): SetIsLoadingAction => ({
