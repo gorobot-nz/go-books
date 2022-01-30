@@ -5,6 +5,7 @@ const initialState: BookState = {
     books: [] as IBookWithAuthors[],
     selectedBook: {} as IBookWithAuthors,
     isLoading: false,
+    isBookModalVisible: false,
     error: ''
 }
 
@@ -16,6 +17,8 @@ export default function bookReducer(state = initialState, action: BookAction): B
             return {...state, selectedBook: action.payload, isLoading: false}
         case BookActionsEnum.SET_IS_LOADING:
             return {...state, isLoading: action.payload}
+        case BookActionsEnum.SET_IS_BOOK_MODAL_VISIBLE:
+            return {...state, isBookModalVisible: action.payload}
         case BookActionsEnum.SET_ERROR:
             return {...state, error: action.payload}
         default:

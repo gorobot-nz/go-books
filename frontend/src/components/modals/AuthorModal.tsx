@@ -24,16 +24,21 @@ const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVi
     }
 
     const handleOk = () => {
+        const sendAuthor = {} as IAuthorWithBooks
+        sendAuthor.author.name = authorInput.author.name
+        sendAuthor.author.surname = authorInput.author.surname
         if (isUpdate) {
             updateAuthor(authorInput)
         } else {
             addAuthor(authorInput)
         }
         setIsModalVisible(false)
+        setAuthorInput({} as IAuthorWithBooks)
     }
 
     const handleCancel = () => {
         setIsModalVisible(false)
+        setAuthorInput({} as IAuthorWithBooks)
     }
 
     return (
@@ -43,12 +48,14 @@ const AuthorModal: FC<AuthorModalProps> = ({author, isModalVisible, setIsModalVi
                 <Form.Item label="Title">
                     <Input
                         value={authorInput?.author?.name}
+                        name='author.name'
                         onChange={handleChange}
                     />
                 </Form.Item>
                 <Form.Item label="Description">
                     <Input
                         value={authorInput?.author?.surname}
+                        name='author.surname'
                         onChange={handleChange}
                     />
                 </Form.Item>

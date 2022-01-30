@@ -65,12 +65,19 @@ const BookModal: FC<BookModalProps> = ({book, isModalVisible, setIsModalVisible,
                         onChange={handleChange}
                     />
                 </Form.Item>
-                <Form.Item label="Authors">
-                    <Input
-                        value={authors}
-                        onChange={e => e.target.value}
-                    />
-                </Form.Item>
+                {
+                    !isUpdate
+                        ?
+                        <Form.Item label="Authors">
+                            <Input
+                                value={authors}
+                                onChange={e => e.target.value}
+                            />
+                        </Form.Item>
+                        :
+                        <>
+                        </>
+                }
             </Form>
         </Modal>
     );

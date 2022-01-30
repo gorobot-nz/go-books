@@ -1,5 +1,12 @@
 import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
-import {BookActionsEnum, SetBooksAction, SetErrorAction, SetIsLoadingAction, SetSelectedBookAction} from "./types";
+import {
+    BookActionsEnum,
+    SetBooksAction,
+    SetErrorAction,
+    SetIsBookModalVisibleAction,
+    SetIsLoadingAction,
+    SetSelectedBookAction
+} from "./types";
 import {AppDispatch} from "../../index";
 import {$api} from "../../../http";
 import {GetBooksResponse} from "../../../http/response/GetBooksResponse";
@@ -11,6 +18,10 @@ export const BookActionCreators = {
     }),
     setSelectedBook: (payload: IBookWithAuthors): SetSelectedBookAction => ({
         type: BookActionsEnum.SET_SELECTED_BOOK,
+        payload
+    }),
+    setIsBookModalVisible: (payload: boolean): SetIsBookModalVisibleAction => ({
+        type: BookActionsEnum.SET_IS_BOOK_MODAL_VISIBLE,
         payload
     }),
     setIsLoading: (payload: boolean): SetIsLoadingAction => ({

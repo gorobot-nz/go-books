@@ -3,6 +3,7 @@ import {
     AuthorActionsEnum,
     SetAuthorsAction,
     SetErrorAction,
+    SetIsAuthorModalVisibleAction,
     SetIsLoadingAction,
     SetSelectedAuthorAction
 } from "./types";
@@ -21,6 +22,10 @@ export const AuthorActionCreators = {
     }),
     setIsLoading: (payload: boolean): SetIsLoadingAction => ({
         type: AuthorActionsEnum.SET_IS_LOADING,
+        payload
+    }),
+    setIsAuthorModalVisible: (payload: boolean): SetIsAuthorModalVisibleAction => ({
+        type: AuthorActionsEnum.SET_IS_AUTHOR_MODAL_VISIBLE,
         payload
     }),
     setError: (payload: string): SetErrorAction => ({
