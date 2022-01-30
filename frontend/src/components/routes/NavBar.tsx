@@ -8,8 +8,6 @@ import {useTypedSelector} from "../../hooks/useTypedSelector";
 const NavBar: FC = () => {
     const navigate = useNavigate()
     const {isAuth} = useTypedSelector(state => state.authReducer)
-    const {isBookModalVisible} = useTypedSelector(state => state.bookReducer)
-    const {isAuthorModalVisible} = useTypedSelector(state => state.authorReducer)
 
     const {logout, setIsAuthorModalVisible, setIsBookModalVisible} = useActions()
 
