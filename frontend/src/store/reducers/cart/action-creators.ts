@@ -7,5 +7,6 @@ export const CartActionCreators = {
         type: CartActionsEnum.SET_CART_WITH_BOOKS,
         payload
     }),
-    buy: () => async (dispatch: AppDispatch) => ({})
+    buy: () => async (dispatch: AppDispatch) => {
+    }
 }
