@@ -1,23 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Form, Input, Modal} from "antd";
 import {IAuthorWithBooks} from "../../models/IAuthorWithBooks";
 import {useActions} from "../../hooks/useActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {IAuthor} from "../../models/IAuthor";
+import {IBook} from "../../models/IBook";
 
 const AuthorModal = () => {
     const {isAuthorModalVisible, selectedAuthor, isAuthorUpdated} = useTypedSelector(state => state.authorReducer)
-    const [authorInput, setAuthorInput] = useState(selectedAuthor)
     const {updateAuthor, addAuthor, setIsAuthorModalVisible, setSelectedAuthor} = useActions()
-
-    useEffect(() => {
-        setAuthorInput(selectedAuthor)
-    }, [selectedAuthor])
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
 
     const handleOk = () => {
+        const author = {author: {} as IAuthor, books: [] as IBook[]} as IAuthorWithBooks
+        author.author.name = name
+        author.author.surname = surname
         if (isAuthorUpdated) {
-            updateAuthor(authorInput)
+            updateAuthor(author)
         } else {
-            addAuthor(authorInput)
+            addAuthor(author)
         }
         setIsAuthorModalVisible(false)
         setSelectedAuthor({} as IAuthorWithBooks)
@@ -34,14 +36,14 @@ const AuthorModal = () => {
             <Form>
                 <Form.Item label="Title">
                     <Input
-                        value={authorInput?.author?.name}
-                        onChange={e => e.target.value}
+                        value={selectedAuthor?.author?.name}
+                        onChange={e => setName(e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item label="Description">
                     <Input
-                        value={authorInput?.author?.surname}
-                        onChange={e => e.target.value}
+                        value={selectedAuthor?.author?.surname}
+                        onChange={e => setSurname(e.target.value)}
                     />
                 </Form.Item>
             </Form>

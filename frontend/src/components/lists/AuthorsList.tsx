@@ -17,7 +17,6 @@ const AuthorsList: FC<AuthorsListProps> = ({authors}) => {
                     author={author}
                 />
             )}
-            <AuthorModal/>
         </Row>
     );
 };

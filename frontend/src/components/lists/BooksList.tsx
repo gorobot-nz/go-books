@@ -14,7 +14,6 @@ const BooksList: FC<BooksListProps> = ({books}) => {
             {books?.map(book =>
                 <BookCard key={book.book.id} book={book}/>
             )}
-            <BookModal/>
         </Row>
     );
 };

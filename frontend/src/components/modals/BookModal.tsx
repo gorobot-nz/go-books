@@ -3,10 +3,16 @@ import {useActions} from "../../hooks/useActions";
 import {Form, Input, Modal} from "antd";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {IBookWithAuthors} from "../../models/IBookWithAuthors";
+import {IAuthor} from "../../models/IAuthor";
+import {IBook} from "../../models/IBook";
 
 const BookModal = () => {
     const {isBookModalVisible, selectedBook, isBookUpdated} = useTypedSelector(state => state.bookReducer)
     const [bookInput, setBookInput] = useState(selectedBook)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [price, setPrice] = useState('')
+    const [year, setYear] = useState('')
     const [authors, setAuthors] = useState('')
     const {updateBook, addBook, setIsBookModalVisible, setSelectedBook} = useActions()
 
@@ -15,13 +21,18 @@ const BookModal = () => {
     }, [selectedBook])
 
     const handleOk = () => {
+        const book = {book: {} as IBook, authors: [] as IAuthor[]} as IBookWithAuthors
+        book.book.title = title
+        book.book.description = description
+        book.book.price = Number(price)
+        book.book.date = year
         if (isBookUpdated) {
-            updateBook(bookInput)
+            updateBook(book)
         } else {
             const authorsIds = authors.split(',').map(function (item) {
                 return parseInt(item, 10);
             });
-            addBook(bookInput, authorsIds)
+            addBook(book, authorsIds)
         }
         setIsBookModalVisible(false)
         setSelectedBook({} as IBookWithAuthors)
@@ -38,26 +49,26 @@ const BookModal = () => {
             <Form>
                 <Form.Item label="Title">
                     <Input
-                        value={bookInput?.book?.title}
-                        onChange={e => e.target.value}
+                        value={selectedBook?.book?.title}
+                        onChange={e => setTitle(e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item label="Description">
                     <Input
-                        value={bookInput?.book?.description}
-                        onChange={e => e.target.value}
+                        value={selectedBook?.book?.description}
+                        onChange={e => setDescription(e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item label="Price">
                     <Input
-                        value={bookInput?.book?.price}
-                        onChange={e => e.target.value}
+                        value={selectedBook?.book?.price}
+                        onChange={e => setPrice(e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item label="Publishing year">
                     <Input
-                        value={bookInput?.book?.date}
-                        onChange={e => e.target.value}
+                        value={selectedBook?.book?.date}
+                        onChange={e => setYear(e.target.value)}
                     />
                 </Form.Item>
                 {

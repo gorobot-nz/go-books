@@ -10,6 +10,8 @@ import {Token} from "./models/Token";
 import {useNavigate} from "react-router-dom";
 import {PrivateRoutes, PublicRoutes} from "./routes";
 import NavBar from "./components/routes/NavBar";
+import BookModal from "./components/modals/BookModal";
+import AuthorModal from "./components/modals/AuthorModal";
 
 function App() {
     const dispatcher = useDispatch()
@@ -37,6 +39,8 @@ function App() {
             <NavBar/>
             <Layout.Content>
                 <AppRouter/>
+                <BookModal/>
+                <AuthorModal/>
             </Layout.Content>
         </Layout>
     );
