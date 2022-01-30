@@ -1,7 +1,5 @@
-import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
-
 export interface CartState {
-    cartWithBooks: Map<IBookWithAuthors, number>;
+    cartWithBooks: Map<number, number>;
 }
 
 export enum CartActionsEnum {
@@ -10,7 +8,7 @@ export enum CartActionsEnum {
 
 export interface SetCartWithBooksAction {
     type: CartActionsEnum.SET_CART_WITH_BOOKS;
-    payload: Map<IBookWithAuthors, number>;
+    payload: Map<number, number>;
 }
 
 export type CartAction = SetCartWithBooksAction

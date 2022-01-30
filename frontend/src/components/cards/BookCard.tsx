@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 import {Button, Card, Col, Divider, Row, Select} from "antd";
 import {useActions} from "../../hooks/useActions";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 interface BookCardProps {
     book: IBookWithAuthors
@@ -10,8 +11,14 @@ interface BookCardProps {
 const BookCard: FC<BookCardProps> = ({book}) => {
 
     const {Option} = Select;
+    const {cartWithBooks} = useTypedSelector(state => state.cartReducer)
+    const {deleteBook, setIsBookModalVisible, setSelectedBook, setCart} = useActions()
 
-    const {deleteBook, setIsBookModalVisible, setSelectedBook} = useActions()
+    const handleAddToCart = () => {
+        cartWithBooks.set(book.book.id, 1)
+        setCart(cartWithBooks)
+        console.log(cartWithBooks)
+    }
 
     const handleEdit = () => {
         setIsBookModalVisible(true);
@@ -42,8 +49,7 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                 <Divider/>
                 <Row>
                     <Col>
-                        <Button onClick={() => {
-                        }}>
+                        <Button onClick={handleAddToCart}>
                             Add to cart
                         </Button>
                     </Col>

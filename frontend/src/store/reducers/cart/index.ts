@@ -1,8 +1,7 @@
 import {CartAction, CartActionsEnum, CartState} from "./types";
-import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 const initialState: CartState = {
-    cartWithBooks: new Map<IBookWithAuthors, number>(),
+    cartWithBooks: new Map<number, number>(),
 }
 
 export default function cartReducer(state = initialState, action: CartAction): CartState {
