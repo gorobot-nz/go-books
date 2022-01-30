@@ -15,7 +15,7 @@ const BookCard: FC<BookCardProps> = ({book}) => {
     const {deleteBook, setIsBookModalVisible, setSelectedBook, setCart} = useActions()
 
     const handleAddToCart = () => {
-        cartWithBooks.set(book.book.id, 1)
+        cartWithBooks.push(book)
         setCart(cartWithBooks)
         console.log(cartWithBooks)
     }
@@ -39,7 +39,7 @@ const BookCard: FC<BookCardProps> = ({book}) => {
                 <p>Publish year: {book.book.date.slice(0, 4)}</p>
                 <Divider/>
                 <p>АВТОРЫ</p>
-                <Select style={{width: 250}}>
+                <Select style={{width: "100%"}}>
                     {book.authors?.map(author =>
                         <Option key={author.id} value={author.name}>
                             {author.name} {author.surname}

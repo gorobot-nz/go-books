@@ -1,8 +1,9 @@
 import {CartActionsEnum, SetCartWithBooksAction} from "./types";
 import {AppDispatch} from "../../index";
+import {IBookWithAuthors} from "../../../models/IBookWithAuthors";
 
 export const CartActionCreators = {
-    setCart: (payload: Map<number, number>): SetCartWithBooksAction => ({
+    setCart: (payload: IBookWithAuthors[]): SetCartWithBooksAction => ({
         type: CartActionsEnum.SET_CART_WITH_BOOKS,
         payload
     }),

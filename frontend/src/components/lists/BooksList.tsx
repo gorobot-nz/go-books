@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 import {Row} from "antd";
 import BookCard from "../cards/BookCard";
-import BookModal from "../modals/BookModal";
 
 interface BooksListProps {
     books: IBookWithAuthors[]
