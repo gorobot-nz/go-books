@@ -1,72 +1,69 @@
-import React, {FC, useEffect, useState} from 'react';
-import {IBookWithAuthors} from "../../models/IBookWithAuthors";
+import React, {useEffect, useState} from 'react';
 import {useActions} from "../../hooks/useActions";
 import {Form, Input, Modal} from "antd";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {IBookWithAuthors} from "../../models/IBookWithAuthors";
 
-interface BookModalProps {
-    book: IBookWithAuthors
-    isModalVisible: boolean;
-    setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-    isUpdate: boolean;
-}
-
-const BookModal: FC<BookModalProps> = ({book, isModalVisible, setIsModalVisible, isUpdate}) => {
-    const [bookInput, setBookInput] = useState(book)
-    const [authors, setAuthors] = useState('')
+const BookModal = () => {
     const {updateBook, addBook} = useActions()
+    const {isBookModalVisible, selectedBook, isBookUpdated} = useTypedSelector(state => state.bookReducer)
+    const [bookInput, setBookInput] = useState({} as IBookWithAuthors)
+    const [authors, setAuthors] = useState('')
+
+    const {setIsBookModalVisible, setSelectedBook} = useActions()
 
     useEffect(() => {
-        setBookInput(book)
-    }, [book])
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target
-        setBookInput(prevState => ({...prevState, [name]: value}))
-    }
+        setBookInput(selectedBook)
+    }, [selectedBook])
 
     const handleOk = () => {
-        if (isUpdate) {
+        if (isBookUpdated) {
             updateBook(bookInput)
         } else {
-            addBook(bookInput, [])
+            const authorsIds = authors.split(',').map(function (item) {
+                return parseInt(item, 10);
+            });
+            addBook(bookInput, authorsIds)
         }
-        setIsModalVisible(false)
+        setIsBookModalVisible(false)
+        setSelectedBook({} as IBookWithAuthors)
     }
 
     const handleCancel = () => {
-        setIsModalVisible(false)
+        setIsBookModalVisible(false)
+        setSelectedBook({} as IBookWithAuthors)
     }
 
     return (
-        <Modal title="Book" visible={isModalVisible} onOk={handleOk}
+        <Modal title="Book" visible={isBookModalVisible} onOk={handleOk}
                onCancel={handleCancel}>
             <Form>
                 <Form.Item label="Title">
                     <Input
                         value={bookInput?.book?.title}
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
                 <Form.Item label="Description">
                     <Input
                         value={bookInput?.book?.description}
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
                 <Form.Item label="Price">
                     <Input
                         value={bookInput?.book?.price}
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
                 <Form.Item label="Publishing year">
                     <Input
                         value={bookInput?.book?.date}
-                        onChange={handleChange}
+                        onChange={e => e.target.value}
                     />
                 </Form.Item>
                 {
-                    !isUpdate
+                    !isBookUpdated
                         ?
                         <Form.Item label="Authors">
                             <Input

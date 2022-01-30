@@ -4,6 +4,7 @@ export interface BookState {
     books: IBookWithAuthors[];
     selectedBook: IBookWithAuthors;
     isBookModalVisible: boolean;
+    isBookUpdated: boolean;
     isLoading: boolean;
     error: string;
 }
@@ -13,6 +14,7 @@ export enum BookActionsEnum {
     SET_SELECTED_BOOK = 'SET_SELECTED_BOOK',
     SET_IS_LOADING = 'SET_IS_LOADING',
     SET_IS_BOOK_MODAL_VISIBLE = 'SET_IS_BOOK_MODAL_VISIBLE',
+    SET_IS_BOOK_UPDATED = 'SET_IS_BOOK_UPDATED',
     SET_ERROR = 'SET_ERROR',
 }
 
@@ -36,6 +38,11 @@ export interface SetIsBookModalVisibleAction {
     payload: boolean
 }
 
+export interface SetIsBookUpdatedAction {
+    type: BookActionsEnum.SET_IS_BOOK_UPDATED;
+    payload: boolean
+}
+
 export interface SetErrorAction {
     type: BookActionsEnum.SET_ERROR;
     payload: string
@@ -47,3 +54,4 @@ export type BookAction =
     | SetIsLoadingAction
     | SetErrorAction
     | SetIsBookModalVisibleAction
+    | SetIsBookUpdatedAction
