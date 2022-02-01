@@ -3,8 +3,7 @@ package service
 import (
 	"github.com/gorobot-nz/go-books/internal/domain"
 	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/checkout/session"
-	"github.com/stripe/stripe-go/v72/customer"
+	"github.com/stripe/stripe-go/v72/paymentintent"
 )
 
 type StripeService struct{}
@@ -13,43 +12,15 @@ func NewStripeService() *StripeService {
 	return &StripeService{}
 }
 
-var PriceId = "price_1KNjRLD5oBk3DmS9n1oYMXp8"
+func (s *StripeService) CreateIntent(data *domain.StripeInput) (*stripe.PaymentIntent, error) {
 
-func (s *StripeService) CreateSession(data *domain.StripeInput) (*stripe.CheckoutSession, error) {
-
-	customerParams := &stripe.CustomerParams{
-		Email: stripe.String("test@gmail.com"),
-	}
-	customerParams.AddMetadata("FinalEmail", "test@gmail.com")
-	newCustomer, err := customer.New(customerParams)
-
-	if err != nil {
-		return nil, err
+	params := &stripe.PaymentIntentParams{
+		Amount:             stripe.Int64(int64(data.Price)),
+		Currency:           stripe.String(string(stripe.CurrencyPLN)),
+		PaymentMethodTypes: []*string{stripe.String("card")},
 	}
 
-	meta := map[string]string{
-		"FinalEmail": "test@gmail.com",
-	}
+	pi, _ := paymentintent.New(params)
 
-	params := &stripe.CheckoutSessionParams{
-		Customer:   &newCustomer.ID,
-		SuccessURL: stripe.String("https://www.youtube.com/channel/UCzgn3FvGR1UK_0M0B6GiLug"),
-		CancelURL:  stripe.String("https://www.youtube.com/channel/UCzgn3FvGR1UK_0M0B6GiLug"),
-		PaymentMethodTypes: stripe.StringSlice([]string{
-			"card",
-		}),
-		Mode: stripe.String(string(stripe.CheckoutSessionModeSubscription)),
-		LineItems: []*stripe.CheckoutSessionLineItemParams{
-			&stripe.CheckoutSessionLineItemParams{
-				Price:    stripe.String(PriceId),
-				Quantity: stripe.Int64(1),
-			},
-		},
-		SubscriptionData: &stripe.CheckoutSessionSubscriptionDataParams{
-			TrialPeriodDays: stripe.Int64(7),
-			Metadata:        meta,
-		},
-	}
-
-	return session.New(params)
+	return pi, nil
 }

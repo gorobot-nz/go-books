@@ -1,70 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://js.stripe.com/v3/"></script>
     <meta charset="UTF-8">
     <title>Hello</title>
 </head>
 <body>
-<p>HELLO</p>
 <div>
-    <label>
-        Enter books' ids: <input id='books' type='text'/>
-    </label>
+    <form id="payment-form">
+
+        <label for="name">Name</label>
+        <input type="text" id="name">
+        <br/>
+        <br/>
+        <label for="mail">Mail</label>
+        <input type="email" id="mail">
+        <br/>
+        <br/>
+        <label for="money">Price</label>
+        <input type="number" id="money">
+        <br/>
+        <br/>
+        <label for="card-element">Card</label>
+        <div id="card-element" style='width: 50%'></div>
+        <button>Pay</button>
+    </form>
+    <div id="messages" role="alert"></div>
+
 </div>
-<hr/>
-<div>
-    <label>
-        Enter your id: <input id='user' type='text'/>
-    </label>
-</div>
-<hr/>
-<div>
-    <label>
-        Enter books' price: <input id='price' type='text'/> $
-    </label>
-</div>
-<hr/>
-
-<button>click me</button>
-
-<script>
-    const stripe = Stripe("pk_test_51KM8UWD5oBk3DmS9OTO6TRwyDHetko1QtTh32u83kmV35nCCpdjsIOfJQZxpwSvPhGY7YOJZHWlPVOStk1SubBn5004A8x6HT8");
-    const button = document.querySelector('button')
-    button.onclick = () => {
-        let books = document.getElementById('books').value
-        books = books.split(',').map(item => {
-            return parseInt(item, 10)
-        })
-        const userId = getValue('user')
-        const price = getValue('price')
-
-        fetch('http://localhost:8080/stripe/accept', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                books,
-                userId,
-                price
-            })
-        }).then(
-            async response => {
-                const res = await response.json();
-                console.log(res);
-                const id = res.id;
-                console.log(id);
-                stripe.redirectToCheckout({sessionId: id});
-            }
-        )
-    }
-
-    function getValue(id) {
-        let result = document.getElementById(id).value
-        return parseInt(result, 10)
-    }
-</script>
-
+<script src="https://js.stripe.com/v3/"></script>
+<script src="card.js"></script>
 </body>
 </html>

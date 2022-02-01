@@ -9,5 +9,5 @@ type StripeInput struct {
 }
 
 type StripeService interface {
-	CreateSession(data *StripeInput) (*stripe.CheckoutSession, error)
+	CreateIntent(data *StripeInput) (*stripe.PaymentIntent, error)
 }

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorobot-nz/go-books/internal/domain"
 	"github.com/gorobot-nz/go-books/internal/utils"
@@ -22,9 +23,11 @@ func (h *StripeHandler) AcceptPayment(c *gin.Context) {
 		utils.ErrorMessage(c, "wrong params")
 	}
 
-	stripeSession, _ := h.service.CreateSession(&stripeInput)
+	fmt.Println(stripeInput)
+
+	intent, _ := h.service.CreateIntent(&stripeInput)
 
 	c.JSON(http.StatusOK, gin.H{
-		"id": stripeSession.ID,
+		"id": intent.ClientSecret,
 	})
 }
