@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	stripe.Key = "sk_test_51KM8UWD5oBk3DmS9s5RmF1IbIsr1etbW8eFVkWN1KEGEdvtCEQWNBiIcLxa8GNbQE13kRCz7KnqxGDHqpRXXPgNq00cYTbvywm"
+	stripe.Key = ""
 }
 
 func main() {
